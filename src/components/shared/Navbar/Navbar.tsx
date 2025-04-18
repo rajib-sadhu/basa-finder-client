@@ -6,10 +6,7 @@ import {
   Menu,
   X,
   Home,
-  Info,
-  Building,
   LayoutDashboard,
-  Contact,
   Loader,
   User,
   LogOut,
@@ -17,14 +14,16 @@ import {
 import Link from "next/link";
 import Logo from "@/assets/svg/Logo";
 import { useUser } from "@/context/UserContext";
-import { logout } from "@/services/AuthService";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { protectedRoutes } from "@/constants";
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const isActive = (path: string) => pathname === path;
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const { user, isLoading, setIsLoading } = useUser();
+  const { user, logout, isLoading } = useUser();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -34,13 +33,31 @@ const Navbar = () => {
     setIsProfileOpen(!isProfileOpen);
   };
 
-  const handleLogout = () => {
-    logout();
-    setIsLoading(true);
-    // if (protectedRoutes.some((route) => pathname.match(route))) {
-    router.push("/");
-    // }
+  const handleLogout = async () => {
+    await logout();
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.push("/");
+    }
   };
+
+  const links = [
+    {
+      name: "Home",
+      path: "/",
+    },
+    {
+      name: "About Us",
+      path: "/about",
+    },
+    {
+      name: "Rentals",
+      path: "/rentals",
+    },
+    {
+      name: "Contact Us",
+      path: "/contact",
+    },
+  ];
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
@@ -52,34 +69,20 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 items-center">
-          <Link
-            href="/"
-            className="text-gray-600 hover:text-emerald-600 flex items-center gap-1"
-          >
-            <Home size={16} />
-            <span>Home</span>
-          </Link>
-          <Link
-            href="/about"
-            className="text-gray-600 hover:text-emerald-600 flex items-center gap-1"
-          >
-            <Info size={16} />
-            <span>About Us</span>
-          </Link>
-          <Link
-            href="/rentals"
-            className="text-gray-600 hover:text-emerald-600 flex items-center gap-1"
-          >
-            <Building size={16} />
-            <span>Rentals</span>
-          </Link>
-          <Link
-            href="/contact"
-            className="text-gray-600 hover:text-emerald-600 flex items-center gap-1"
-          >
-            <Contact size={16} />
-            <span>Contact Us</span>
-          </Link>
+          {links.map((link, i) => (
+            <Link
+              key={i}
+              href={link.path}
+              className={
+                isActive(link.path)
+                  ? "text-emerald-600 border-b-emerald-600 border-b-2 flex items-center gap-1"
+                  : "text-gray-600 hover:text-emerald-600 flex items-center gap-1"
+              }
+            >
+              <Home size={16} />
+              <span>{link.name}</span>
+            </Link>
+          ))}
 
           {isLoading ? (
             <Button
@@ -151,38 +154,21 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white px-4 pt-2 pb-4 shadow-lg animate-fade-in">
           <nav className="flex flex-col space-y-4">
-            <Link
-              href="/"
-              className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
-              onClick={toggleMenu}
-            >
-              <Home size={16} />
-              <span>Home</span>
-            </Link>
-            <Link
-              href="/about"
-              className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
-              onClick={toggleMenu}
-            >
-              <Info size={16} />
-              <span>About Us</span>
-            </Link>
-            <Link
-              href="/rentals"
-              className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
-              onClick={toggleMenu}
-            >
-              <Building size={16} />
-              <span>Rentals</span>
-            </Link>
-            <Link
-              href="/contact"
-              className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
-              onClick={toggleMenu}
-            >
-              <Contact size={16} />
-              <span>Contact Us</span>
-            </Link>
+            {links.map((link, i) => (
+              <Link
+                key={i}
+                href={link.path}
+                className={
+                  isActive(link.path)
+                    ? "text-emerald-600 flex items-center gap-2 pl-1"
+                    : "text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
+                }
+                onClick={toggleMenu}
+              >
+                <Home size={16} />
+                <span>{link.name}</span>
+              </Link>
+            ))}
 
             {user ? (
               <>
