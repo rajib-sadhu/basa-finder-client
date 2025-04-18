@@ -20,6 +20,7 @@ import { FcGoogle } from "react-icons/fc";
 import Logo from "@/assets/svg/Logo"
 
 const LoginForm = () => {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
@@ -31,8 +32,10 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
-      if (res?.success) {
+      console.log(res);
+      if (res?.status) {
         toast.success(res?.message);
+        router.push("/");
       } else {
         toast.error(res?.message);
       }
@@ -42,7 +45,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
+    <div className="w-full px-4">
       <div className="w-full max-w-md mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border">
         <div className=" flex justify-center mb-4">
           <div className="flex items-center gap-2">
