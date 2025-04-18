@@ -39,6 +39,7 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await registerUser(data);
+      console.log(res);
       if (res?.success) {
         toast.success(res?.message);
       } else {
@@ -50,7 +51,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div>
+    <div className="w-full px-4">
       <div className="w-full max-w-md mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border">
         <div className=" flex justify-center mb-4">
           <div className="flex items-center gap-2">
@@ -117,6 +118,24 @@ const RegisterForm = () => {
                       type="email"
                       {...field}
                       value={field.value || ""}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your Phone Number"
+                      {...field}
+                      value={field.value || ""}
+                      type="text"
                     />
                   </FormControl>
                   <FormMessage />
