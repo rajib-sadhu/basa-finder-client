@@ -19,8 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 // import { FcGoogle } from "react-icons/fc";
 
-// import { FcGoogle } from "react-icons/fc";
-
 import Logo from "@/assets/svg/Logo";
 import { useRouter } from "next/navigation";
 // import { signIn } from "next-auth/react";
@@ -38,10 +36,8 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
-      console.log(res);
       if (res?.status) {
         toast.success(res?.message);
-        form.reset();
         router.push("/");
       } else {
         toast.error(res?.message);
@@ -66,7 +62,6 @@ const LoginForm = () => {
         <h1 className="text-center font-bold text-2xl md:text-3xl pb-6">
           Sign in your account
         </h1>
-
 
         {/* <Button
 

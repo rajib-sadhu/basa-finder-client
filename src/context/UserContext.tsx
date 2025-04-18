@@ -1,6 +1,5 @@
-import { getCurrentUser } from "@/services/AuthService";
+import { getCurrentUser, logOut } from "@/services/AuthService";
 import { IUser } from "@/types";
-
 import {
   createContext,
   Dispatch,
@@ -15,6 +14,7 @@ interface IUserProviderValues {
   isLoading: boolean;
   setUser: (user: IUser | null) => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  logout: () => Promise<void>;
 }
 
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
@@ -29,12 +29,28 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(false);
   };
 
+  const handleLogout = async () => {
+    await logOut();
+    setUser(null);
+    setIsLoading(false);
+  };
+
+
+
   useEffect(() => {
     handleUser();
-  }, [isLoading]);
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        isLoading,
+        setIsLoading,
+        logout: handleLogout,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -42,7 +58,6 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useUser = () => {
   const context = useContext(UserContext);
-
   if (context == undefined) {
     throw new Error("useUser must be used within the UserProvider context");
   }

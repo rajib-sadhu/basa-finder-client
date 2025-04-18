@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+// import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import image1 from "@/assets/images/homeHeader.jpeg";
 import Link from "next/link";
@@ -29,7 +29,7 @@ const HeaderSection = () => {
                     Browse Rentals
                   </Button>
                 </Link>
-                <Link href="/add-property">
+                {/* <Link href="/add-property">
                   <Button
                     variant="outline"
                     className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 min-w-[180px]"
@@ -37,7 +37,7 @@ const HeaderSection = () => {
                     List Your Property
                     <ArrowRight size={16} className="ml-2" />
                   </Button>
-                </Link>
+                </Link> */}
               </div>
             </div>
 

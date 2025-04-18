@@ -18,10 +18,6 @@ export const registerUser = async (userData: FieldValues) => {
     );
     const result = await res.json();
 
-    // if (result.success) {
-    //   (await cookies()).set("accessToken", result.data.accessToken);
-    // }
-
     return result;
   } catch (error: any) {
     return Error(error);
@@ -43,7 +39,6 @@ export const loginUser = async (userData: FieldValues) => {
     if (result.status) {
       (await cookies()).set("accessToken", result.token);
     }
-    console.log(result.token);
     return result;
   } catch (error: any) {
     return Error(error);
@@ -61,6 +56,9 @@ export const getCurrentUser = async () => {
     return null;
   }
 };
-export const logout = async () => {
-  (await cookies()).delete("accessToken");
+
+export const logOut = async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete("accessToken");
+  return { success: true, message: "Logged out successfully" };
 };
