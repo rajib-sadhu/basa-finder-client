@@ -16,8 +16,8 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { loginSchema } from "./loginValidation";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FcGoogle } from "react-icons/fc";
-import Logo from "@/assets/svg/Logo"
+// import { FcGoogle } from "react-icons/fc";
+import Logo from "@/assets/svg/Logo";
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
@@ -36,6 +36,7 @@ const LoginForm = () => {
       console.log(res);
       if (res?.status) {
         toast.success(res?.message);
+        form.reset();
         router.push("/");
       } else {
         toast.error(res?.message);
@@ -50,7 +51,7 @@ const LoginForm = () => {
       <div className="w-full max-w-md mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border">
         <div className=" flex justify-center mb-4">
           <div className="flex items-center gap-2">
-          <Logo />
+            <Logo />
             <span className="text-xl font-semibold">
               Basa<span className="text-slate-600">Finder</span>
             </span>
@@ -61,7 +62,10 @@ const LoginForm = () => {
           Sign in your account
         </h1>
 
-        <Button variant={"outline"} className="rounded-full w-full gap-2 bg-emerald-100">
+        {/* <Button
+          variant={"outline"}
+          className="rounded-full w-full gap-2 bg-emerald-100"
+        >
           <FcGoogle className="text-lg" />
           Sign in with Google
         </Button>
@@ -73,7 +77,7 @@ const LoginForm = () => {
           <div className="relative flex justify-center text-sm">
             <span className="bg-white px-2 text-gray-500">OR</span>
           </div>
-        </div>
+        </div> */}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
