@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
 import {
   Form,
   FormControl,
@@ -30,7 +31,6 @@ import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const router = useRouter();
-
   const form = useForm({
     resolver: zodResolver(registrationSchema),
   });
@@ -42,11 +42,11 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await registerUser(data);
-      console.log(res);
       if (res?.status) {
         router.push("/login");
         form.reset();
         toast.success(res?.message);
+        router.push("/login");
       } else {
         toast.error(res?.message);
       }
@@ -71,7 +71,16 @@ const RegisterForm = () => {
           Create your account
         </h1>
 
+
         {/* <Button
+
+        <Button
+          onClick={() =>
+            signIn("google", {
+              callbackUrl: "http://localhost:3000/about",
+            })
+          }
+
           variant={"outline"}
           className="rounded-full w-full gap-2 bg-emerald-100"
         >
