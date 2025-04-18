@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { jwtDecode } from "jwt-decode";
@@ -61,4 +60,7 @@ export const getCurrentUser = async () => {
   } else {
     return null;
   }
+};
+export const logout = async () => {
+  (await cookies()).delete("accessToken");
 };

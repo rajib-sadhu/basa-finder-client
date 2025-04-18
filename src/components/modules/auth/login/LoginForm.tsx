@@ -16,7 +16,11 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { loginSchema } from "./loginValidation";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+// import { FcGoogle } from "react-icons/fc";
+
 import { FcGoogle } from "react-icons/fc";
+
 import Logo from "@/assets/svg/Logo";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -37,6 +41,7 @@ const LoginForm = () => {
       console.log(res);
       if (res?.status) {
         toast.success(res?.message);
+        form.reset();
         router.push("/");
       } else {
         toast.error(res?.message);
@@ -62,12 +67,16 @@ const LoginForm = () => {
           Sign in your account
         </h1>
 
+
+        {/* <Button
+
         <Button
           onClick={() =>
             signIn("google", {
               callbackUrl: "http://localhost:3000/about",
             })
           }
+
           variant={"outline"}
           className="rounded-full w-full gap-2 bg-emerald-100"
         >
@@ -82,7 +91,7 @@ const LoginForm = () => {
           <div className="relative flex justify-center text-sm">
             <span className="bg-white px-2 text-gray-500">OR</span>
           </div>
-        </div>
+        </div> */}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "Discover your perfect rental home or list your property with BasaFinder. Simple, fast, and reliable.",
   icons: {
-    icon: "/favicon/logo.svg",
+    icon: "/favicon/logo2.svg",
   },
 };
 

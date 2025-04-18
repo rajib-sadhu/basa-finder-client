@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 
 import Logo from "@/assets/svg/Logo";
 import { useRouter } from "next/navigation";
@@ -42,7 +42,9 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await registerUser(data);
-      if (res?.success) {
+      if (res?.status) {
+        router.push("/login");
+        form.reset();
         toast.success(res?.message);
         router.push("/login");
       } else {
@@ -69,12 +71,16 @@ const RegisterForm = () => {
           Create your account
         </h1>
 
+
+        {/* <Button
+
         <Button
           onClick={() =>
             signIn("google", {
               callbackUrl: "http://localhost:3000/about",
             })
           }
+
           variant={"outline"}
           className="rounded-full w-full gap-2 bg-emerald-100"
         >
@@ -89,7 +95,7 @@ const RegisterForm = () => {
           <div className="relative flex justify-center text-sm">
             <span className="bg-white px-2 text-gray-500">OR</span>
           </div>
-        </div>
+        </div> */}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
