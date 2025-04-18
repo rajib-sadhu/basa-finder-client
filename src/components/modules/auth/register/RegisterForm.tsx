@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
 import {
   Form,
   FormControl,
@@ -26,8 +27,10 @@ import {
 import { FcGoogle } from "react-icons/fc";
 
 import Logo from "@/assets/svg/Logo";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(registrationSchema),
   });
@@ -39,9 +42,9 @@ const RegisterForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await registerUser(data);
-      console.log(res);
       if (res?.success) {
         toast.success(res?.message);
+        router.push("/login");
       } else {
         toast.error(res?.message);
       }
@@ -55,7 +58,7 @@ const RegisterForm = () => {
       <div className="w-full max-w-md mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border">
         <div className=" flex justify-center mb-4">
           <div className="flex items-center gap-2">
-          <Logo/>
+            <Logo />
             <span className="text-xl font-semibold">
               Basa<span className="text-slate-600">Finder</span>
             </span>
@@ -66,7 +69,15 @@ const RegisterForm = () => {
           Create your account
         </h1>
 
-        <Button variant={"outline"} className="rounded-full w-full gap-2 bg-emerald-100">
+        <Button
+          onClick={() =>
+            signIn("google", {
+              callbackUrl: "http://localhost:3000/about",
+            })
+          }
+          variant={"outline"}
+          className="rounded-full w-full gap-2 bg-emerald-100"
+        >
           <FcGoogle className="text-lg" />
           Sign up with Google
         </Button>
