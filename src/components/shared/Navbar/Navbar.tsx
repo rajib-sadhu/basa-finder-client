@@ -67,7 +67,7 @@ const Navbar = () => {
             <NavigationMenuList>
               {navItems.map((item) => (
                 <NavigationMenuItem key={item.name}>
-                  <Link href={item.href} legacyBehavior passHref>
+                  <Link href={item.href} passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
@@ -98,7 +98,13 @@ const Navbar = () => {
             <SheetContent side="right">
               <SheetHeader>
                 <SheetTitle className="text-left flex items-center gap-1">
-                  <Image src={Logo} alt="logo" width={10} height={10} className="w-4 h-4 object-contain" />
+                  <Image
+                    src={Logo}
+                    alt="logo"
+                    width={10}
+                    height={10}
+                    className="w-4 h-4 object-contain"
+                  />
                   Basa<span className="text-slate-600">Finder</span>
                 </SheetTitle>
               </SheetHeader>
