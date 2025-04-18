@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "Discover your perfect rental home or list your property with BasaFinder. Simple, fast, and reliable.",
   icons: {
-    icon: "/favicon/logo.svg",
+    icon: "/favicon/logo2.svg",
   },
 };
 
@@ -29,15 +29,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // <Providers>
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Toaster richColors position="top-center" />
-        {children}
-      </body>
-    </html>
-    // </Providers>
+    <Providers>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Toaster richColors position="top-center" />
+          {children}
+        </body>
+      </html>
+    </Providers>
   );
 }

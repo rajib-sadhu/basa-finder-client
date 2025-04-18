@@ -10,16 +10,36 @@ import {
   Building,
   LayoutDashboard,
   Contact,
+  Loader,
+  User,
+  LogOut,
 } from "lucide-react";
 import Link from "next/link";
 import Logo from "@/assets/svg/Logo";
+import { useUser } from "@/context/UserContext";
+import { logout } from "@/services/AuthService";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const { user, isLoading, setIsLoading } = useUser();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleProfile = () => {
+    setIsProfileOpen(!isProfileOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsLoading(true);
+    // if (protectedRoutes.some((route) => pathname.match(route))) {
+    router.push("/");
+    // }
   };
 
   return (
@@ -60,33 +80,53 @@ const Navbar = () => {
             <Contact size={16} />
             <span>Contact Us</span>
           </Link>
-          {/* <Link
-            href="/dashboard"
-            className="text-gray-600 hover:text-emerald-600 flex items-center gap-1"
-          >
-            <LayoutDashboard size={16} />
-            <span>Dashboard</span>
-          </Link> */}
 
-          {isLoggedIn ? (
-            <Link
-              href="/dashboard"
-              className="text-gray-600 hover:text-emerald-600 flex items-center gap-1"
+          {isLoading ? (
+            <Button
+              variant="default"
+              className="bg-emerald-600 hover:bg-emerald-700 "
             >
+              <Loader className="animate-spin" />
+            </Button>
+          ) : user ? (
+            <div className="relative">
               <Button
-                variant="default"
-                className="bg-emerald-600 hover:bg-emerald-700"
+                variant="ghost"
+                className="flex items-center gap-1 hover:bg-gray-100"
+                onClick={toggleProfile}
               >
-                <LayoutDashboard size={16} />
-                <span>Dashboard</span>
+                <User size={16} />
+                <span>Profile</span>
               </Button>
-            </Link>
+
+              {isProfileOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                  <Link
+                    href="/dashboard"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                    onClick={() => setIsProfileOpen(false)}
+                  >
+                    <LayoutDashboard size={16} />
+                    <span>Dashboard</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  >
+                    <LogOut size={16} />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="flex space-x-2">
               <Link href="/login">
-                <Button className="cursor-pointer" variant="outline">Login</Button>
+                <Button className="cursor-pointer" variant="outline">
+                  Login
+                </Button>
               </Link>
-              <Link href="/register" >
+              <Link href="/register">
                 <Button
                   variant="default"
                   className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"
@@ -140,32 +180,28 @@ const Navbar = () => {
               className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
               onClick={toggleMenu}
             >
-               <Contact size={16} />
-               <span>Contact Us</span>
+              <Contact size={16} />
+              <span>Contact Us</span>
             </Link>
-            {/* <Link
-              href="/dashboard"
-              className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
-              onClick={toggleMenu}
-            >
-              <LayoutDashboard size={16} />
-              <span>Dashboard</span>
-            </Link> */}
 
-            {isLoggedIn ? (
-              <Link
-                href="/dashboard"
-                className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
-                onClick={toggleMenu}
-              >
-                <Button
-                  variant="default"
-                  className="w-full bg-emerald-600 hover:bg-emerald-700"
+            {user ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
+                  onClick={toggleMenu}
                 >
                   <LayoutDashboard size={16} />
                   <span>Dashboard</span>
-                </Button>
-              </Link>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2 w-full"
+                >
+                  <LogOut size={16} />
+                  <span>Logout</span>
+                </button>
+              </>
             ) : (
               <div className="flex flex-col space-y-2">
                 <Link href="/login" onClick={toggleMenu}>
@@ -203,130 +239,3 @@ export default Navbar;
                 </Button>
               </Link> */
 }
-
-// import { useState } from "react";
-// import Logo from "@/assets/svg/logo.svg";
-// import {
-//   NavigationMenu,
-//   NavigationMenuItem,
-//   NavigationMenuList,
-// } from "@/components/ui/navigation-menu";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Sheet,
-//   SheetContent,
-//   SheetHeader,
-//   SheetTitle,
-//   SheetTrigger,
-// } from "@/components/ui/sheet";
-// import { Menu } from "lucide-react";
-// import Link from "next/link";
-// import Image from "next/image";
-
-// const Navbar = () => {
-//   const [isOpen, setIsOpen] = useState(false);
-
-//   const navItems = [
-//     { name: "Home", href: "/" },
-//     { name: "About", href: "/about" },
-//     { name: "News", href: "/news" },
-//   ];
-
-//   return (
-//     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-//       <div className="container mx-auto flex h-16 items-center justify-between sm:px-5">
-//         {/* Desktop Logo */}
-//         <div className="hidden md:flex items-center gap-2">
-//           <Image
-//             src={Logo}
-//             alt={"logo"}
-//             width={10}
-//             height={20}
-//             className="h-8 w-8"
-//           />
-//           <span className="text-lg font-semibold">
-//             Basa<span className="text-slate-600">Finder</span>
-//           </span>
-//         </div>
-
-//         {/* Mobile Logo */}
-//         <div className="md:hidden flex items-center gap-1 px-2">
-//           <Image
-//             src={Logo}
-//             alt={"logo"}
-//             width={16}
-//             height={16}
-//             className="h-6 w-6 object-contain"
-//           />
-//           <span className="text-lg font-semibold">
-//             Basa<span className="text-slate-600">Finder</span>
-//           </span>
-//         </div>
-
-//         {/* Desktop Navigation */}
-//         <nav className="hidden md:flex items-center gap-6">
-//           <NavigationMenu>
-//             <NavigationMenuList>
-//               {navItems.map((item) => (
-//                 <NavigationMenuItem key={item.name}>
-//                   <Link href={item.href} >
-//                     {item.name}
-//                   </Link>
-//                 </NavigationMenuItem>
-//               ))}
-//             </NavigationMenuList>
-//           </NavigationMenu>
-//         </nav>
-
-//         {/* Login Button - Desktop */}
-//         <div className="hidden md:block">
-//           <Button variant="outline" asChild>
-//             <Link href="/login">Login</Link>
-//           </Button>
-//         </div>
-
-//         {/* Mobile Menu Button */}
-//         <div className="md:hidden">
-//           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-//             <SheetTrigger asChild>
-//               <Button variant="ghost" size="icon">
-//                 <Menu className="h-5 w-5" />
-//               </Button>
-//             </SheetTrigger>
-//             <SheetContent side="right">
-//               <SheetHeader>
-//                 <SheetTitle className="text-left flex items-center gap-1">
-//                   <Image
-//                     src={Logo}
-//                     alt="logo"
-//                     width={10}
-//                     height={10}
-//                     className="w-4 h-4 object-contain"
-//                   />
-//                   Basa<span className="text-slate-600">Finder</span>
-//                 </SheetTitle>
-//               </SheetHeader>
-//               <div className="flex flex-col gap-4 mt-8 px-2">
-//                 {navItems.map((item) => (
-//                   <Link
-//                     key={item.name}
-//                     href={item.href}
-//                     className="text-sm font-medium transition-colors hover:text-primary"
-//                     onClick={() => setIsOpen(false)}
-//                   >
-//                     {item.name}
-//                   </Link>
-//                 ))}
-//                 <Button variant="outline" className="mt-4" asChild>
-//                   <Link href="/login">Login</Link>
-//                 </Button>
-//               </div>
-//             </SheetContent>
-//           </Sheet>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default Navbar;
