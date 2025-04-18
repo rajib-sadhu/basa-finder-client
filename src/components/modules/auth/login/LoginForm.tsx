@@ -19,11 +19,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 // import { FcGoogle } from "react-icons/fc";
 
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 
 import Logo from "@/assets/svg/Logo";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
   const router = useRouter();
