@@ -17,8 +17,7 @@ import { loginSchema } from "./loginValidation";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FcGoogle } from "react-icons/fc";
-import Image from "next/image";
-import Logo from "@/assets/svg/logo.svg";
+import Logo from "@/assets/svg/Logo"
 
 const LoginForm = () => {
   const form = useForm({
@@ -47,13 +46,7 @@ const LoginForm = () => {
       <div className="w-full max-w-md mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border">
         <div className=" flex justify-center mb-4">
           <div className="flex items-center gap-2">
-            <Image
-              src={Logo}
-              alt={"logo"}
-              width={24}
-              height={24}
-              className="h-8 w-8"
-            />
+          <Logo />
             <span className="text-xl font-semibold">
               Basa<span className="text-slate-600">Finder</span>
             </span>
@@ -64,7 +57,7 @@ const LoginForm = () => {
           Sign in your account
         </h1>
 
-        <Button variant={"outline"} className="rounded-full w-full gap-2">
+        <Button variant={"outline"} className="rounded-full w-full gap-2 bg-emerald-100">
           <FcGoogle className="text-lg" />
           Sign in with Google
         </Button>
@@ -120,7 +113,8 @@ const LoginForm = () => {
 
             <Button
               type="submit"
-              className="w-full rounded-full"
+              className="w-full rounded-full cursor-pointer bg-emerald-700 hover:bg-emerald-900"
+              variant="default"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Logging in..." : "Login"}

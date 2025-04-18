@@ -1,7 +1,15 @@
+import FeaturesProperties from "@/components/modules/home/FeaturesProperties";
+import HeaderSection from "@/components/modules/home/HeaderSection";
+import HowIsItWork from "@/components/modules/home/HowIsItWork";
+import Testimonials from "@/components/modules/home/Testimonials";
+
 const HomePage = () => {
   return (
-    <div className="px-2">
-      <h1>Welcome To Home Page</h1>
+    <div>
+      <HeaderSection />
+      <FeaturesProperties />
+      <HowIsItWork />
+      <Testimonials />
     </div>
   );
 };
