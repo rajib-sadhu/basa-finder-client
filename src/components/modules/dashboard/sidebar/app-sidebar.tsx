@@ -1,175 +1,133 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
+import * as React from "react";
+import { House, Loader, SquareTerminal, User } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarRail,
-} from "@/components/ui/sidebar"
-
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-}
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { NavMain } from "./nav-main";
+import Link from "next/link";
+import Logo from "@/assets/svg/Logo";
+import { NavUser } from "./nav-user";
+import { useUser } from "@/context/UserContext";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user, isLoading } = useUser();
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  const data =
+    user?.role === "admin"
+      ? {
+          navMain: [
+            {
+              title: "Dashboard",
+              url: "/admin/dashboard",
+              icon: SquareTerminal,
+              isActive: true,
+            },
+            {
+              title: "User Management",
+              url: "/admin/allUsers",
+              icon: User,
+            },
+            {
+              title: "Rental House Management",
+              url: "/admin/allLists",
+              icon: House,
+              // items: [
+              //   {
+              //     title: "All Listing",
+              //     url: "/admin/allLists",
+              //   },
+              //   {
+              //     title: "New Listing",
+              //     url: "/admin/newLists",
+              //   },
+              // ],
+            },
+          ],
+        }
+      : user?.role === "landlord"
+      ? {
+          navMain: [
+            {
+              title: "Dashboard",
+              url: "/landlord/dashboard",
+              icon: SquareTerminal,
+              isActive: true,
+            },
+            {
+              title: "Rental House Management",
+              url: "/landlord/allLists",
+              icon: House,
+              items: [
+                {
+                  title: "Listed Rentals",
+                  url: "/landlord/listedRentals",
+                },
+                {
+                  title: "Create Rentals",
+                  url: "/landlord/createRental",
+                },
+              ],
+            },
+          ],
+        }
+      : {
+          navMain: [
+            {
+              title: "Dashboard",
+              url: "/user/dashboard",
+              icon: SquareTerminal,
+              isActive: true,
+            },
+            {
+              title: "Profile",
+              url: "/user/profile",
+              icon: User,
+            },
+            {
+              title: "Requested",
+              url: "/user/requested",
+              icon: House,
+            },
+          ],
+        };
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/">
+                <div className="flex items-center justify-center">
+                  <Logo />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <h2 className="font-bold text-xl">BasaFinder</h2>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
-  )
+  );
 }
