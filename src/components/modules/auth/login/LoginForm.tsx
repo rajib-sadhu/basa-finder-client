@@ -36,6 +36,7 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
+      console.log(res)
       if (res?.status) {
         toast.success(res?.message);
         router.push("/");
