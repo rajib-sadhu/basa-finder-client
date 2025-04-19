@@ -1,14 +1,9 @@
-// export { default } from "next-auth/middleware";
-
-// export const config = { matcher: ["/about"] };
-
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "./services/AuthService";
-import { protectedRoutes } from "./constants";
 
 type Role = keyof typeof roleBasedPrivateRoutes;
 
-const authRoutes = ["/login", "/register", "/"];
+const authRoutes = ["/login", "/register"];
 
 const roleBasedPrivateRoutes = {
   tenant: [/^\/tenant/],
@@ -31,15 +26,14 @@ export const middleware = async (request: NextRequest) => {
   if (!userInfo) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
+    } else {
+      return NextResponse.redirect(
+        new URL(
+          `http://localhost:3000/login?redirectPath=${pathname}`,
+          request.url
+        )
+      );
     }
-    //  else {
-    //   return NextResponse.redirect(
-    //     new URL(
-    //       `http://localhost:3000/login?redirectPath=${pathname}`,
-    //       request.url
-    //     )
-    //   );
-    // }
   }
 
   if (userInfo?.role && roleBasedPrivateRoutes[userInfo?.role as Role]) {
@@ -49,9 +43,16 @@ export const middleware = async (request: NextRequest) => {
     }
   }
 
-  //   return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.redirect(new URL("/", request.url));
 };
 
 export const config = {
-  matcher: protectedRoutes,
+  matcher: [
+    "/admin",
+    "/admin/:page",
+    "/landlord",
+    "/landlord/:page",
+    "/tenant",
+    "/tenant/:page",
+  ],
 };

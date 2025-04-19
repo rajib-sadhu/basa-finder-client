@@ -10,7 +10,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
-const page = () => {
+const AdminDashboard = () => {
   return (
     <div>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b">
@@ -41,4 +41,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AdminDashboard;

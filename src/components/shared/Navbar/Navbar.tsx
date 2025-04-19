@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Menu,
@@ -16,6 +16,8 @@ import Logo from "@/assets/svg/Logo";
 import { useUser } from "@/context/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { protectedRoutes } from "@/constants";
+import { getCurrentUser } from "@/services/AuthService";
+import { IUser } from "@/types";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -23,15 +25,10 @@ const Navbar = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const { user, logout, isLoading } = useUser();
+  const { user, logout, isLoading, setUser, setIsLoading } = useUser();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const toggleProfile = () => {
-    setIsProfileOpen(!isProfileOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
 
   const handleLogout = async () => {
     await logout();
@@ -40,23 +37,22 @@ const Navbar = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await getCurrentUser();
+      if (res) {
+        setUser(res as IUser);
+      }
+      setIsLoading(false);
+    };
+    fetchUser();
+  }, []);
+
   const links = [
-    {
-      name: "Home",
-      path: "/",
-    },
-    {
-      name: "About Us",
-      path: "/about",
-    },
-    {
-      name: "Rentals",
-      path: "/rentals",
-    },
-    {
-      name: "Contact Us",
-      path: "/contact",
-    },
+    { name: "Home", path: "/" },
+    { name: "About Us", path: "/about" },
+    { name: "Rentals", path: "/rentals" },
+    { name: "Contact Us", path: "/contact" },
   ];
 
   return (
@@ -87,15 +83,15 @@ const Navbar = () => {
           {isLoading ? (
             <Button
               variant="default"
-              className="bg-emerald-600 hover:bg-emerald-700 "
+              className="bg-emerald-600 hover:bg-emerald-700"
             >
               <Loader className="animate-spin" />
             </Button>
           ) : user ? (
             <div className="relative">
               <Button
-                variant="default"
-                className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer text-white"
+                 variant="default"
+                  className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"
                 onClick={toggleProfile}
               >
                 <User size={16} />
@@ -105,8 +101,8 @@ const Navbar = () => {
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                   <Link
-                    href="/dashboard"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                    href={`/${user?.role}/dashboard`}
+                    className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                     onClick={() => setIsProfileOpen(false)}
                   >
                     <LayoutDashboard size={16} />
@@ -152,7 +148,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white px-4 pt-2 pb-4 shadow-lg animate-fade-in duration-200">
+        <div className="md:hidden bg-white px-4 pt-2 pb-4 shadow-lg animate-fade-in">
           <nav className="flex flex-col space-y-4">
             {links.map((link, i) => (
               <Link
@@ -173,7 +169,7 @@ const Navbar = () => {
             {user ? (
               <>
                 <Link
-                  href="/dashboard"
+                   href={`/${user?.role}/dashboard`}
                   className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
                   onClick={toggleMenu}
                 >
@@ -213,15 +209,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-{
-  /* <Link href="/profile" className="py-2" onClick={toggleMenu}>
-                <Button
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-2"
-                >
-                  <User size={16} />
-                  <span>Profile</span>
-                </Button>
-              </Link> */
-}

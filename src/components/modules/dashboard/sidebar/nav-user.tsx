@@ -18,18 +18,17 @@ import {
 } from "@/components/ui/sidebar";
 import { useUser } from "@/context/UserContext";
 import { usePathname, useRouter } from "next/navigation";
-// import { logout } from "@/services/AuthService";
 import { protectedRoutes } from "@/constants";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { user, setIsLoading } = useUser();
+  const { user, setIsLoading, logout } = useUser();
 
   const router = useRouter();
   const pathname = usePathname();
 
   const handleLogout = () => {
-    // logout();
+    logout();
     setIsLoading(true);
 
     if (protectedRoutes.some((route) => pathname.match(route))) {
