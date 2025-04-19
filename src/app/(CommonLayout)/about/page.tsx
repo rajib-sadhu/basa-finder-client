@@ -2,7 +2,17 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Building2, Rocket, ShieldCheck, Gem } from "lucide-react";
+import {
+  Home,
+  Users,
+  Building2,
+  Rocket,
+  ShieldCheck,
+  Gem,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -129,6 +139,83 @@ const About = () => {
             idea during a pandemic lockdown is now transforming the way people
             rent and find homes across Bangladesh.
           </p>
+        </div>
+      </div>
+
+      {/* Contact Section */}
+      <div className="max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-24 px-4 md:px-8 mx-auto py-16 items-center">
+        {/* Left Column - Contact Info */}
+        <div>
+          <h2 className="text-3xl font-bold mb-4 text-gray-900">Contact Us</h2>
+          <p className="mb-8 text-gray-600">
+            We&apos;d love to hear from you! Whether you have questions about
+            our listings, need help with property details, or just want to say
+            hi, feel free to reach out.
+          </p>
+
+          <div className="grid gap-8">
+            {/* Email */}
+            <div className="flex items-start gap-4">
+              <Mail className="text-emerald-600 w-6 h-6 mt-1" />
+              <div>
+                <p className="text-sm text-gray-500">Email</p>
+                <Link
+                  href="mailto:support@basafinder.com"
+                  className="text-base text-gray-900 hover:underline"
+                >
+                  support@basafinder.com
+                </Link>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="flex items-start gap-4">
+              <Phone className="text-emerald-600 w-6 h-6 mt-1" />
+              <div>
+                <p className="text-sm text-gray-500">Phone</p>
+                <Link
+                  href="tel:+8801600000000"
+                  className="text-base text-gray-900 hover:underline"
+                >
+                  +880 1600 000000
+                </Link>
+              </div>
+            </div>
+
+            {/* Location */}
+            <div className="flex items-start gap-4">
+              <MapPin className="text-emerald-600 w-6 h-6 mt-1" />
+              <div>
+                <p className="text-sm text-gray-500">Location</p>
+                <p className="text-base text-gray-900">
+                  Dhaka, Bangladesh
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10">
+            <Link href="/rentals">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                Explore Listings
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Right Column - Map */}
+        <div className="w-full">
+          <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.902359664899!2d90.39120471538523!3d23.750903494592175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b85ac4d1531f%3A0x94785d9e2a8a18e2!2sDhaka!5e0!3m2!1sen!2sbd!4v1712812336563!5m2!1sen!2sbd"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              className="rounded-2xl shadow-lg w-full h-full"
+            ></iframe>
+          </div>
         </div>
       </div>
     </div>
