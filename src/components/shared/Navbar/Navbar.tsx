@@ -94,8 +94,8 @@ const Navbar = () => {
           ) : user ? (
             <div className="relative">
               <Button
-                variant="ghost"
-                className="flex items-center gap-1 hover:bg-gray-100"
+                variant="default"
+                className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer text-white"
                 onClick={toggleProfile}
               >
                 <User size={16} />
@@ -114,7 +114,7 @@ const Navbar = () => {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
                   >
                     <LogOut size={16} />
                     <span>Logout</span>
@@ -152,7 +152,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white px-4 pt-2 pb-4 shadow-lg animate-fade-in">
+        <div className="md:hidden bg-white px-4 pt-2 pb-4 shadow-lg animate-fade-in duration-200">
           <nav className="flex flex-col space-y-4">
             {links.map((link, i) => (
               <Link

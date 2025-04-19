@@ -18,4 +18,7 @@ export const registrationSchema = z.object({
   password: z
     .string({ required_error: "Password is required" })
     .min(4, "Password must be at least 4 characters"),
+    passwordConfirm: z
+    .string({ required_error: "Password Confirmation is required" })
+    .min(1),
 });
