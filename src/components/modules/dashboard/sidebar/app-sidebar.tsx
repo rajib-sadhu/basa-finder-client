@@ -68,18 +68,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             },
             {
               title: "Rental House Management",
-              url: "/landlord/allLists",
+              url: "/landlord/listedRentals",
               icon: House,
-              items: [
-                {
-                  title: "Listed Rentals",
-                  url: "/landlord/listedRentals",
-                },
-                {
-                  title: "Create Rentals",
-                  url: "/landlord/createRental",
-                },
-              ],
             },
           ],
         }
