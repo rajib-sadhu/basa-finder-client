@@ -6,6 +6,6 @@ export interface IUser {
   role: string;
   iat: number;
   exp: number;
-  _id: string;
+  _id?: string;
   isActive?: boolean;
 }

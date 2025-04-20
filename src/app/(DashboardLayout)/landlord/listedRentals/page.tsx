@@ -1,13 +1,11 @@
 import HeaderPath from "@/components/modules/dashboard/header/HeaderPath";
 import ManageLandlordRentals from "@/components/modules/rental";
 
-
-const ListedRentalsPage = () => {
+const ListedRentalsPage = async () => {
   return (
     <div>
-      <HeaderPath role="LandLord" subPath="All Rentals" />
-      <ManageLandlordRentals/>
-   
+      <HeaderPath role="LandLord" subPath="Your Listings" />
+      <ManageLandlordRentals />
     </div>
   );
 };
