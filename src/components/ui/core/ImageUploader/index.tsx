@@ -2,35 +2,49 @@
 
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { ImageIcon } from "lucide-react";
 
 type TImageUploader = {
   label?: string;
   className?: string;
-  setImageFiles: React.Dispatch<React.SetStateAction<File[]>>;
-  setImagePreview: React.Dispatch<React.SetStateAction<string[]>>;
+  setImageFiles: (files: File[]) => void;
+  setImagePreview: (previews: string[]) => void;
+  maxFiles?: number;
 };
 
-const NMImageUploader = ({
+const ImageUploader = ({
   label = "Upload Images",
   className,
   setImageFiles,
   setImagePreview,
+  maxFiles = 5,
 }: TImageUploader) => {
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files![0];
+    if (!event.target.files || event.target.files.length === 0) return;
 
-    setImageFiles((prev) => [...prev, file]);
+    const files = Array.from(event.target.files).slice(0, maxFiles);
+    const newFiles: File[] = [];
+    const newPreviews: string[] = [];
 
-    if (file) {
+    // Process each file to create previews
+    files.forEach((file) => {
+      newFiles.push(file);
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setImagePreview((prev) => [...prev, reader.result as string]);
+        newPreviews.push(reader.result as string);
+        
+        // When all files are processed, update the previews
+        if (newPreviews.length === files.length) {
+          setImagePreview(newPreviews);
+        }
       };
 
       reader.readAsDataURL(file);
-    }
+    });
 
+    // Update the files state immediately
+    setImageFiles(newFiles);
     event.target.value = "";
   };
 
@@ -46,12 +60,13 @@ const NMImageUploader = ({
       />
       <label
         htmlFor="image-upload"
-        className="w-full md:h-36 md:size-36 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md cursor-pointer text-center text-sm text-gray-500 hover:bg-gray-50 transition"
+        className="w-full h-32 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-md cursor-pointer text-center text-sm text-gray-500 hover:bg-gray-50 transition"
       >
-        {label}
+        <ImageIcon className="w-6 h-6 mb-2 text-gray-400" />
+        <span>{label}</span>
       </label>
     </div>
   );
 };
 
-export default NMImageUploader;
+export default ImageUploader;
