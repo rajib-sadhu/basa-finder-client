@@ -1,8 +1,11 @@
+"use server";
+import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
+import { revalidateTag } from "next/cache"; // ✅ Import this to use `revalidateTag`
 
 export const createRentals = async (rentalData: FieldValues) => {
   try {
-    const res = await fetch(`http://localhost:5000/api/listings`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -11,6 +14,9 @@ export const createRentals = async (rentalData: FieldValues) => {
     });
 
     const result = await res.json();
+
+    revalidateTag("RENTAL");
+
     return result;
   } catch (error: any) {
     return Error(error);
@@ -19,9 +25,34 @@ export const createRentals = async (rentalData: FieldValues) => {
 
 export const getAllRentals = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/listings", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
       cache: "no-store",
+      next: {
+        tags: ["RENTAL"], // ✅ Optional: tag it here if needed
+      },
     });
+
+    const result = await res.json();
+    return result.data;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const getMyRentals = async () => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/my-listings`,
+      {
+        headers: {
+          Authorization: (await cookies()).get("accessToken")?.value || "",
+        },
+        cache: "no-store",
+        next: {
+          tags: ["RENTAL"], // ✅ Correct usage of tags
+        },
+      }
+    );
 
     const result = await res.json();
     return result.data;
@@ -48,7 +79,7 @@ export const uploadImages = async (imageFiles: File[]) => {
     );
 
     const data = await res.json();
-    return data.secure_url; // Cloudinary returns a secure https image URL
+    return data.secure_url;
   });
 
   return Promise.all(uploads);
