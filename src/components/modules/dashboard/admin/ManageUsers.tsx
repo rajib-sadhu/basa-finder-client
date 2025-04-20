@@ -1,4 +1,3 @@
-// ManageUsers.tsx
 "use client";
 
 import { useState } from "react";
@@ -13,8 +12,6 @@ import {
 } from "@/components/ui/table";
 import { IUser } from "@/types";
 import { updateUserActiveStatus } from "@/services/UserInfo";
-
-// API call to toggle user status
 
 interface ManageUsersProps {
   users: IUser[];
