@@ -52,7 +52,6 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
     { name: "Rentals", path: "/rentals" },
-    { name: "Contact Us", path: "/contact" },
   ];
 
   return (

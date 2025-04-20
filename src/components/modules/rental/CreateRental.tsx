@@ -11,6 +11,7 @@ import {
   Wifi,
   Image as ImageIcon,
   X,
+  Loader,
 } from "lucide-react";
 import Link from "next/link";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -39,8 +40,10 @@ import {
 import { useState } from "react";
 import ImageUploader from "@/components/ui/core/ImageUploader";
 import ImagePreviewer from "@/components/ui/core/ImageUploader/ImagePreviewer";
+import { useUser } from "@/context/UserContext";
 
 const CreateRental = () => {
+  const { user, isLoading } = useUser();
   const router = useRouter();
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
@@ -83,21 +86,11 @@ const CreateRental = () => {
       const imageUrls = await uploadImages(imageFiles);
 
       toast.success("Image upload done!", { id: toastUploadID });
-      //   const formData = new FormData();
 
-      //   Object.entries(data).forEach(([key, value]) => {
-      //     if (key === "amenities" && Array.isArray(value)) {
-      //       formData.append("amenities", JSON.stringify(value));
-      //     } else if (value !== undefined && value !== null) {
-      //       formData.append(key, value.toString());
-      //     }
-      //   });
-      //   imageFiles.forEach((file) => {
-      //     formData.append("images", file);
-      //   });
       const toastListID = toast.loading("Rental listing...");
       const rentalData = {
         ...data,
+        landlordId: user!._id,
         amenities: JSON.stringify(data.amenities),
         images: imageUrls,
       };
@@ -121,6 +114,14 @@ const CreateRental = () => {
       console.error(err);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="h-40 flex items-center justify-center">
+        <Loader className="animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="px-4">
