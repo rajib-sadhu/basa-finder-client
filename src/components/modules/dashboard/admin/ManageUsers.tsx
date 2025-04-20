@@ -64,7 +64,7 @@ const ManageUsers = ({ users }: ManageUsersProps) => {
                   <Button
                     onClick={() => handleToggle(user._id!)}
                     className={`px-2 py-1 text-white text-sm ${
-                      user.isActive ? "bg-green-500" : "bg-red-500"
+                      user.isActive ? "bg-emerald-700" : "bg-red-700"
                     }`}
                   >
                     {user.isActive ? "Active" : "Blocked"}
