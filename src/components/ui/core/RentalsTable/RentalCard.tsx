@@ -1,4 +1,4 @@
-import { MapPin, Bed, Trash2, Edit, Info } from "lucide-react";
+import { MapPin, Bed, Trash2, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
@@ -8,14 +8,14 @@ import { Loader2 } from "lucide-react";
 
 interface RentalCardProps {
   rental: IRental;
-  handleDelete: (id: string) => Promise<void>;
+  handleDelete: (id: string) => void;
   isDeleting?: boolean;
 }
 
-export function RentalCard({ 
-  rental, 
-  handleDelete, 
-  isDeleting = false 
+export function RentalCard({
+  rental,
+  handleDelete,
+  isDeleting = false,
 }: RentalCardProps) {
   const {
     _id,
@@ -54,7 +54,7 @@ export function RentalCard({
             </Badge>
           </div>
         )}
-        <Badge className="absolute top-3 left-3 bg-emerald-800">
+        <Badge className="absolute top-3 left-3 bg-emerald-800 text-md">
           ${rent.toLocaleString()}/month
         </Badge>
       </div>
@@ -64,12 +64,12 @@ export function RentalCard({
           {title}
         </h3>
 
-        <div className="flex items-center text-emerald-500 text-sm mb-3">
+        <div className="flex items-center text-emerald-700 text-sm mb-3">
           <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
           <span className="line-clamp-1">{location}</span>
         </div>
 
-        <div className="flex items-center text-emerald-600 text-sm mb-4">
+        <div className="flex items-center text-emerald-800 text-sm mb-4">
           <Bed className="h-4 w-4 mr-1 flex-shrink-0" />
           <span>
             {bedrooms} Bedroom{bedrooms > 1 ? "s" : ""}
@@ -78,14 +78,14 @@ export function RentalCard({
 
         {amenities.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
-            {amenities.slice(0, 3).map((item, idx) => (
-              <Badge key={idx} variant="secondary" className="truncate">
+            {amenities.slice(0, 2).map((item, idx) => (
+              <Badge key={idx} variant="secondary" className="bg-emerald-100">
                 {item}
               </Badge>
             ))}
-            {amenities.length > 3 && (
-              <Badge variant="outline" className="truncate">
-                +{amenities.length - 3} more
+            {amenities.length > 2 && (
+              <Badge variant="outline" className="bg-emerald-100">
+                +{amenities.length - 2} more
               </Badge>
             )}
           </div>
@@ -99,11 +99,9 @@ export function RentalCard({
             size="sm"
             asChild
           >
-            <Link href={`/landlord/listedRentals/${_id}`}>
-              <Info className="h-4 w-4" />
-            </Link>
+            <Link href={`/rentals/${_id}`}>View</Link>
           </Button>
-          
+
           <Button
             variant="destructive"
             title="Delete"
@@ -118,7 +116,7 @@ export function RentalCard({
               <Trash2 className="h-4 w-4" />
             )}
           </Button>
-          
+
           <Button
             variant="secondary"
             title="Edit"

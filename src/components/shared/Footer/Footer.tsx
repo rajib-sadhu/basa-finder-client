@@ -76,14 +76,6 @@ const Footer = () => {
                   Rental Listings
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-gray-600 hover:text-basafinder-600 transition-colors"
-                >
-                  Contact Us
-                </Link>
-              </li>
             </ul>
           </div>
 

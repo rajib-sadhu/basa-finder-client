@@ -108,7 +108,7 @@ const ManageLandlordRentals = ({ myListings }: { myListings: IRental[] }) => {
           </Link>
         </div>
       ) : (
-        <div className="grid md:grid-cols-4 grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
           {myListings?.map((rental) => (
             <RentalCard
               key={rental._id}
