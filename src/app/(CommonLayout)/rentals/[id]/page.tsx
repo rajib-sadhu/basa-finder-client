@@ -1,7 +1,7 @@
 "use client";
 import { getSingleRental } from "@/services/RentalsService";
 import { Bed, MapPin, Check, X, Loader } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
@@ -25,6 +25,7 @@ interface IRentalDetails {
 
 const RentalDetailsPage = () => {
   const { id } = useParams();
+  const router = useRouter();
   const [rentalDetails, setRentalDetails] = useState<IRentalDetails | null>(
     null
   );
@@ -153,6 +154,7 @@ const RentalDetailsPage = () => {
               size="lg"
               className="w-full bg-emerald-600 hover:bg-emerald-700"
               disabled={!rentalDetails.availability}
+              onClick={() => router.push(`/rental-request/${id}`)}
             >
               {rentalDetails.availability
                 ? "Request for Rent"
