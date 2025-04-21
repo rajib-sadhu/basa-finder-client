@@ -1,19 +1,24 @@
+"use client";
 import ManageUsers from "@/components/modules/dashboard/admin/ManageUsers";
 import HeaderPath from "@/components/modules/dashboard/header/HeaderPath";
-import { IUser } from "@/types";
+import { getAllUsers } from "@/services/UserInfo";
+import { useEffect, useState } from "react";
 
-const AllUsersPage = async () => {
-  const res = await fetch("http://localhost:5000/api/users", {
-    cache: "no-store",
-  });
+const AllUsersPage = () => {
+  const [allUsers, setAllUsers] = useState([]);
 
-  const json = await res.json();
-  const users: IUser[] = json.data;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await getAllUsers();
+      setAllUsers(users);
+    };
+    fetchUsers();
+  }, []);
 
   return (
     <div>
       <HeaderPath role="Admin" subPath="All Users" />
-      <ManageUsers users={users} />
+      <ManageUsers users={allUsers} />
     </div>
   );
 };

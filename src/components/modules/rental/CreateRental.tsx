@@ -29,7 +29,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { rentalsSchema } from "./rentalValidations";
 import {
   Select,
   SelectContent,
@@ -41,6 +40,65 @@ import { useState } from "react";
 import ImageUploader from "@/components/ui/core/ImageUploader";
 import ImagePreviewer from "@/components/ui/core/ImageUploader/ImagePreviewer";
 import { useUser } from "@/context/UserContext";
+
+import { z } from "zod";
+
+export const rentalsSchema = z.object({
+  title: z
+    .string({
+      required_error: "Title is required",
+      invalid_type_error: "Title must be a string",
+    })
+    .min(5, "Title must be at least 5 characters")
+    .max(100, "Title cannot exceed 100 characters"),
+
+  location: z
+    .string({
+      required_error: "Location is required",
+      invalid_type_error: "Location must be a string",
+    })
+    .min(5, "Location must be at least 5 characters")
+    .max(200, "Location cannot exceed 200 characters"),
+
+  description: z
+    .string({
+      required_error: "Description is required",
+      invalid_type_error: "Description must be a string",
+    })
+    .min(20, "Description must be at least 20 characters")
+    .max(2000, "Description cannot exceed 2000 characters"),
+
+  rent: z
+    .number({
+      required_error: "Rent amount is required",
+      invalid_type_error: "Rent must be a number",
+    })
+    .positive("Rent must be a positive number")
+    .min(1, "Rent must be at least $1"),
+
+  bedrooms: z
+    .number({
+      required_error: "Number of bedrooms is required",
+      invalid_type_error: "Bedrooms must be a number",
+    })
+    .int("Bedrooms must be an integer")
+    .min(1, "At least 1 bedroom is required")
+    .max(20, "Cannot exceed 20 bedrooms"),
+
+  amenities: z
+    .array(
+      z.string({
+        invalid_type_error: "Each amenity must be a string",
+      })
+    )
+    .optional(),
+
+  // Now only accepts File objects
+  images: z.array(z.instanceof(File)),
+});
+
+// Type for TypeScript usage
+export type RentalsInput = z.infer<typeof rentalsSchema>;
 
 const CreateRental = () => {
   const { user, isLoading } = useUser();
@@ -62,7 +120,7 @@ const CreateRental = () => {
   });
 
   const {
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
     handleSubmit,
   } = form;
 
@@ -138,15 +196,6 @@ const CreateRental = () => {
           </Button>
         </Link>
       </div>
-
-      {Object.keys(errors).length > 0 && (
-        <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-md">
-          <h3 className="font-bold mb-2">Please fix these errors:</h3>
-          {Object.entries(errors).map(([key, error]) => (
-            <p key={key}>{error.message}</p>
-          ))}
-        </div>
-      )}
 
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

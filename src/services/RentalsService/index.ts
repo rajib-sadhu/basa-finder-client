@@ -26,9 +26,8 @@ export const createRentals = async (rentalData: FieldValues) => {
 export const getAllRentals = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
-      cache: "no-store",
       next: {
-        tags: ["RENTAL"], // ✅ Optional: tag it here if needed
+        revalidate: 30,
       },
     });
 
@@ -49,13 +48,72 @@ export const getMyRentals = async () => {
         },
         cache: "no-store",
         next: {
-          tags: ["RENTAL"], // ✅ Correct usage of tags
+          tags: ["RENTAL"],
         },
       }
     );
 
     const result = await res.json();
     return result.data;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const getSingleRental = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/list/${id}`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    const result = await res.json();
+    return result.data;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const deleteRental = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/delete/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const result = await res.json();
+    revalidateTag("RENTAL");
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const updateRental = async (
+  id: string,
+  updateRentalData: FieldValues
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/update/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateRentalData),
+      }
+    );
+
+    const result = await res.json();
+
+    revalidateTag("RENTAL");
+
+    return result;
   } catch (error: any) {
     return Error(error);
   }
