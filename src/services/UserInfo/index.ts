@@ -15,6 +15,21 @@ export const getAllUsers = async () => {
     return Error(error);
   }
 };
+export const getSingleUser = async (id: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/users/${id}`, {
+      cache: "no-store",
+      next: {
+        tags: ["USER"],
+      },
+    });
+
+    const result = await res.json();
+    return result.data;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
 export const updateUserActiveStatus = async (userId: string) => {
   try {
     const res = await fetch(
