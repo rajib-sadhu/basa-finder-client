@@ -1,7 +1,5 @@
-// ManageUsers.tsx
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -14,24 +12,14 @@ import {
 import { IUser } from "@/types";
 import { updateUserActiveStatus } from "@/services/UserInfo";
 
-// API call to toggle user status
-
 interface ManageUsersProps {
   users: IUser[];
 }
 
 const ManageUsers = ({ users }: ManageUsersProps) => {
-  const [userList, setUserList] = useState(users);
-
   const handleToggle = async (userId: string) => {
     try {
       await updateUserActiveStatus(userId);
-
-      setUserList((prev) =>
-        prev.map((user) =>
-          user._id === userId ? { ...user, isActive: !user.isActive } : user
-        )
-      );
     } catch (err) {
       console.error("Failed to toggle status:", err);
     }
@@ -56,7 +44,7 @@ const ManageUsers = ({ users }: ManageUsersProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {userList.map((user, i) => (
+            {users.map((user, i) => (
               <TableRow key={user._id}>
                 <TableCell>{i + 1}</TableCell>
                 <TableCell>{user.name}</TableCell>

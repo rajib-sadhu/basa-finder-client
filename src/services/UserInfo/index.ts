@@ -1,9 +1,10 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
+
 export const getAllUsers = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/users`, {
-      cache: "no-store",
       next: {
         tags: ["USERS"],
       },
@@ -36,17 +37,11 @@ export const updateUserActiveStatus = async (userId: string) => {
       `${process.env.NEXT_PUBLIC_BASE_API}/users/activation/${userId}`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
 
-    if (!res.ok) {
-      throw new Error("Failed to update user status");
-    }
-
     const result = await res.json();
+    revalidateTag("USERS");
     return result.data;
   } catch (error) {
     throw error;

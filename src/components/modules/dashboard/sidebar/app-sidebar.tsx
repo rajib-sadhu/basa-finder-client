@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { House, Loader, SquareTerminal, User } from "lucide-react";
+import { Hand, House, Loader, SquareTerminal, User } from "lucide-react";
 
 import {
   Sidebar,
@@ -70,6 +70,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: "Rental House Management",
               url: "/landlord/listedRentals",
               icon: House,
+            },
+            {
+              title: "Rental Requests",
+              url: "/landlord/landlordRequests",
+              icon: Hand,
             },
           ],
         }
