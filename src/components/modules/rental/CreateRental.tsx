@@ -120,7 +120,7 @@ const CreateRental = () => {
   });
 
   const {
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
     handleSubmit,
   } = form;
 
@@ -196,15 +196,6 @@ const CreateRental = () => {
           </Button>
         </Link>
       </div>
-
-      {Object.keys(errors).length > 0 && (
-        <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-md">
-          <h3 className="font-bold mb-2">Please fix these errors:</h3>
-          {Object.entries(errors).map(([key, error]) => (
-            <p key={key}>{error.message}</p>
-          ))}
-        </div>
-      )}
 
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
