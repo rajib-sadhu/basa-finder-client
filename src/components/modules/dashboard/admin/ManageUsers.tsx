@@ -45,8 +45,6 @@ const ManageUsers = ({ users }: ManageUsersProps) => {
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
       const updatedUser = await updateUserRole(userId, newRole);
-      console.log("Role update successful:", updatedUser);
-
       setUserList((prev) =>
         prev.map((user) =>
           user._id === userId ? { ...user, role: updatedUser.role } : user
