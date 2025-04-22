@@ -2,6 +2,7 @@
 
 // import { getValidToken } from "@/lib/verifyToken";
 import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
 export const RentalCreateRequest = async (data: FieldValues) => {
@@ -10,10 +11,10 @@ export const RentalCreateRequest = async (data: FieldValues) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/request`, {
       method: "POST",
       headers: {
-              "Content-Type": "application/json",
-              // Authorization: token,
-            },
-      body:JSON.stringify(data),
+        "Content-Type": "application/json",
+        // Authorization: token,
+      },
+      body: JSON.stringify(data),
     });
     revalidateTag("RENTAL");
     const result = await res.json();
@@ -23,34 +24,56 @@ export const RentalCreateRequest = async (data: FieldValues) => {
   }
 };
 
-// get all products
-export const getAllRequests = async () => {
+// get landlords requests
+export const getLandlordRequests = async () => {
   // const token = await getValidToken();
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/order`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/landlords/requests`,
       {
-        // headers: {
-        //   Authorization:token,
-        // },
+        headers: {
+          Authorization: (await cookies()).get("accessToken")?.value || "",
+        },
+        cache: "no-store",
         next: {
-          tags: ["RENTAL"],
+          tags: ["REQUEST"],
         },
       }
     );
     const data = await res.json();
-    return data;
+    return data.data;
+  } catch (error: any) {
+    return Error(error.message);
+  }
+};
+
+export const updateStatusRequest = async (id: string, status: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/landlords/requests/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({status}),
+      }
+    );
+    const data = await res.json();
+    revalidateTag("REQUEST");
+    return data.data;
   } catch (error: any) {
     return Error(error.message);
   }
 };
 
 // get my products by tenanat
-export const getMyRequest = async (tenantId:string) => {
+export const getMyRequest = async (tenantId: string) => {
   console.log(tenantId);
   // const token = await getValidToken();
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/myRequests/${tenantId}`,
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/order/myRequests/${tenantId}`,
       {
         // headers: {
         //   Authorization:token,
@@ -68,18 +91,19 @@ export const getMyRequest = async (tenantId:string) => {
   }
 };
 // get my products by tenanat
-export const createMypayment = async (tenantId:string,houseData:any) => {
+export const createMypayment = async (tenantId: string, houseData: any) => {
   //console.log(tenantId);
   // const token = await getValidToken();
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/payment/${tenantId}`,
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/order/payment/${tenantId}`,
       {
         method: "PATCH",
         headers: {
-        "Content-Type": "application/json",
-        // Authorization: token,
-      },
-      body: JSON.stringify(houseData),
+          "Content-Type": "application/json",
+          // Authorization: token,
+        },
+        body: JSON.stringify(houseData),
       }
     );
     const data = await res.json();
@@ -91,11 +115,12 @@ export const createMypayment = async (tenantId:string,houseData:any) => {
 };
 
 // get landlord request by landlord
-export const getMyOwn = async (landlordId:string) => {
+export const getMyOwn = async (landlordId: string) => {
   //console.log(landlordId);
   // const token = await getValidToken();
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/myOwnRequest/${landlordId}`,
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/order/myOwnRequest/${landlordId}`,
       {
         // headers: {
         //   Authorization:token,
@@ -131,29 +156,7 @@ export const getMyOwn = async (landlordId:string) => {
 //   }
 // };
 
-
 //update request by landlord
-
-export const updateRequest = async (id: string, houseData: any) => {
-
-  // const token = await getValidToken();
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/update/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        // Authorization: token,
-      },
-      body: JSON.stringify(houseData),
-    });
-    revalidateTag("RENTAL");
-    const data = await res.json();
-    return data;
-  } catch (error: any) {
-    return Error(error.message);
-  }
-};
-
 
 export const verify = async (orderId: string) => {
   // const token = await getValidToken();

@@ -90,7 +90,7 @@ const ManageUsers = ({ users }: ManageUsersProps) => {
                       handleRoleChange(user._id!, newRole)
                     }
                   >
-                    <SelectTrigger className="p-1 rounded-md  text-sm">
+                    <SelectTrigger className="p-1 rounded-md text-sm">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
