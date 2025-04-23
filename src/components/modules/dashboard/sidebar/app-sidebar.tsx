@@ -82,18 +82,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           navMain: [
             {
               title: "Dashboard",
-              url: "/user/dashboard",
+              url: "/tenant/dashboard",
               icon: SquareTerminal,
               isActive: true,
             },
             {
               title: "Profile",
-              url: "/user/profile",
+              url: "/tenant/profile",
               icon: User,
             },
             {
               title: "Requested",
-              url: "/user/requested",
+              url: "/tenant/myRequests",
               icon: House,
             },
           ],
