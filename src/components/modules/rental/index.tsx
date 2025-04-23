@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { RentalCard } from "@/components/ui/core/RentalsTable/RentalCard";
 import { deleteRental } from "@/services/RentalsService";
 import { IRental } from "@/types";
-import { Home, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,7 +18,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-const ManageLandlordRentals = ({ myListings }: { myListings: IRental[] }) => {
+interface ManageLandlordRentalsProps {
+  myListings: IRental[];
+}
+
+const ManageLandlordRentals = ({ myListings }: ManageLandlordRentalsProps) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -81,21 +84,6 @@ const ManageLandlordRentals = ({ myListings }: { myListings: IRental[] }) => {
         </AlertDialogContent>
       </AlertDialog>
 
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold flex items-center gap-2">
-          <Home className="w-5 h-5" /> Your Listings
-        </h1>
-        <Link href="/landlord/listedRentals/createRental">
-          <Button
-            variant="default"
-            className="flex items-center gap-2 bg-emerald-600 cursor-pointer"
-          >
-            <Plus className="w-4 h-4" />
-            Create Rental
-          </Button>
-        </Link>
-      </div>
-
       {myListings?.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500">
@@ -108,7 +96,7 @@ const ManageLandlordRentals = ({ myListings }: { myListings: IRental[] }) => {
           </Link>
         </div>
       ) : (
-        <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
+        <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
           {myListings?.map((rental) => (
             <RentalCard
               key={rental._id}

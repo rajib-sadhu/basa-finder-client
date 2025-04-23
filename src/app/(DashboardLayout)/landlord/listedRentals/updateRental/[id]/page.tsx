@@ -46,6 +46,7 @@ import Image from "next/image";
 import HeaderPath from "@/components/modules/dashboard/header/HeaderPath";
 import { z } from "zod";
 import UpdateImageUploader from "@/components/ui/core/ImageUploader/UpdateImage";
+import { useUser } from "@/context/UserContext";
 
 // Create a modified schema for updates that accepts both URLs and Files
 const updateRentalSchema = rentalsSchema.extend({
@@ -55,6 +56,7 @@ const updateRentalSchema = rentalsSchema.extend({
 const UpdateRental = () => {
   const router = useRouter();
   const { id: rentalId } = useParams();
+  const { user } = useUser();
   const [loading, setLoading] = useState(true);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [newImageFiles, setNewImageFiles] = useState<File[]>([]);
@@ -164,7 +166,11 @@ const UpdateRental = () => {
       const res = await updateRental(rentalId as string, updatedData);
       if (res?.status) {
         toast.success("Rental updated successfully!", { id: toastID });
-        router.push("/landlord/listedRentals");
+        if (user?.role === "admin") {
+          router.push("/admin/allLists");
+        } else {
+          router.push("/landlord/listedRentals");
+        }
       } else {
         toast.error(res?.message || "Failed to update listing", {
           id: toastID,

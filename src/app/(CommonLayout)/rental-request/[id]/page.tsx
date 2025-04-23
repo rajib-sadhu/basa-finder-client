@@ -46,7 +46,7 @@ const RentalRequest = () => {
       const fetchUserInfo = async () => {
         try {
           setLoading(true);
-          const res = await getSingleUser(user?._id as string);
+          const res = await getSingleUser();
           setUserInfo(res);
         } catch (err) {
           console.error("Error fetching UserInfo:", err);
@@ -184,12 +184,17 @@ const RentalRequest = () => {
               checked={agree}
               onCheckedChange={(checked) => setAgree(checked === true)}
             />
-            <label>I agree to the <Link href="#" className="underline text-blue-900" >terms and conditions</Link></label>
+            <label>
+              I agree to the{" "}
+              <Link href="#" className="underline text-blue-900">
+                terms and conditions
+              </Link>
+            </label>
           </div>
 
           <Button
             disabled={!agree}
-            className="bg-[#FF4B27] hover:bg-orange-500 text-white"
+            className="bg-emerald-600 hover:bg-emerald-800 text-white"
             type="submit"
           >
             Submit Request
