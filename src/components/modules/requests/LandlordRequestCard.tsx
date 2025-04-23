@@ -5,7 +5,10 @@ import Image from "next/image";
 
 interface LandlordRequestCardProps {
   requestData: ILandlordRequest;
-  handleStatusChange: (id: string, status: "approved" | "rejected") => void;
+  handleStatusChange: (
+    id: string,
+    status: "approved" | "rejected"
+  ) => Promise<void>;
 }
 
 const LandlordRequestCard = ({
@@ -22,15 +25,11 @@ const LandlordRequestCard = ({
     tenantId,
     listing,
   } = requestData;
-
-  // Add null checks for listing and images
-  const imageUrl = listing?.images?.[0] || "/placeholder-image.jpg";
-
   return (
     <div className="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-200">
       <div className="relative">
         <Image
-          src={imageUrl}
+          src={listing?.images?.[0] || "/placeholder-image.jpg"}
           alt="Rental Image"
           width={500}
           height={300}

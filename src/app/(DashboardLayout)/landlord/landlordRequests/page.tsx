@@ -1,4 +1,4 @@
-"use server"
+// app/landlord/listedRentals/page.tsx
 import HeaderPath from "@/components/modules/dashboard/header/HeaderPath";
 import RentalRequests from "@/components/modules/dashboard/landlord/RentalRequests";
 import { getLandlordRequests } from "@/services/requestService";
