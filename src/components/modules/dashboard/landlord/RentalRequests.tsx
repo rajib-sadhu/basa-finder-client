@@ -1,4 +1,3 @@
-"use client";
 import { ILandlordRequest } from "@/types";
 import { Hand } from "lucide-react";
 import LandlordRequestCard from "../../requests/LandlordRequestCard";
@@ -12,7 +11,6 @@ const RentalRequests = ({
 }) => {
   const handleStatusChange = async (id: string, status: string) => {
     const toastId = toast.loading("Changing status...");
-
     try {
       const res = await updateStatusRequest(id, status);
       toast.success(`Request ${status}`, { id: toastId });

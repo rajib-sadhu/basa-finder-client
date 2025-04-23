@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+button{
+  cursor: pointer;
+}
+
 :root {
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);

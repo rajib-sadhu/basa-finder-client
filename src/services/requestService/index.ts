@@ -56,7 +56,7 @@ export const updateStatusRequest = async (id: string, status: string) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({status}),
+        body: JSON.stringify({ status }),
       }
     );
     const data = await res.json();
@@ -67,25 +67,24 @@ export const updateStatusRequest = async (id: string, status: string) => {
   }
 };
 
-// get my products by tenanat
-export const getMyRequest = async (tenantId: string) => {
-  console.log(tenantId);
-  // const token = await getValidToken();
+// get my request by tenant
+export const getTenantRequest = async () => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/order/myRequests/${tenantId}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/tenants/requests`,
       {
-        // headers: {
-        //   Authorization:token,
-        // },
+        headers: {
+          Authorization: (await cookies()).get("accessToken")?.value || "",
+        },
+        cache: "no-store",
         next: {
-          tags: ["RENTAL"],
+          tags: ["REQUEST"],
         },
       }
     );
     const data = await res.json();
     //console.log(data)
-    return data;
+    return data.data;
   } catch (error: any) {
     return Error(error.message);
   }
