@@ -1,7 +1,10 @@
+
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { ITenantRequest } from "@/types";
 import Image from "next/image";
+// import { toast } from "sonner";
+import PaymentButton from "./PaymentButton";
 
 interface TenantRequestCardProps {
   requestData: ITenantRequest;
@@ -78,7 +81,7 @@ const TenantRequestCard = ({ requestData }: TenantRequestCardProps) => {
 
         {/* Payment Button */}
         <div className="pt-2">
-          <PaymentButton paymentStatus={paymentStatus} status={status} />
+          <PaymentButton paymentStatus={paymentStatus} requestId={_id} status={status} />
         </div>
       </div>
     </div>
@@ -87,38 +90,56 @@ const TenantRequestCard = ({ requestData }: TenantRequestCardProps) => {
 
 export default TenantRequestCard;
 
-const PaymentButton = ({
-  status,
-  paymentStatus,
-}: {
-  status: "approved" | "rejected" | "pending";
-  paymentStatus: "paid" | "unpaid";
-}) => {
-  if (status !== "approved") {
-    return (
-      <Button
-        disabled
-        className={`w-full ${
-          status === "pending"
-            ? "bg-yellow-500 hover:bg-yellow-600"
-            : "bg-red-500 hover:bg-red-600"
-        } text-white`}
-      >
-        {status === "pending" ? "Pending Approval" : "Request Cancelled"}
-      </Button>
-    );
-  }
+// const handdlePayment = async (requestId: string)=>{
+//   try {
+  
+//     const res = await RentalCreatePayment(requestId);
+//     // console.log(res);
+//     if (res.status) {
+//       toast.success("Request created successfully!");
+//       router.push("/tenant/myRequests");
+//     }
+//   } catch (error) {
+//     console.error("Error during rental request:", error);
+//     toast.error("Failed to request rental");
+//   }
+// }
 
-  return (
-    <Button
-      disabled={paymentStatus === "paid"}
-      className={`w-full ${
-        paymentStatus === "paid"
-          ? "bg-green-600 hover:bg-green-700"
-          : "bg-blue-600 hover:bg-blue-700"
-      } text-white`}
-    >
-      {paymentStatus === "paid" ? "Payment Completed" : "Pay Now"}
-    </Button>
-  );
-};
+// const PaymentButton = ({
+//   status,
+//   paymentStatus,
+//   requestId,
+// }: {
+//   status: "approved" | "rejected" | "pending";
+//   paymentStatus: "paid" | "unpaid";
+//   requestId: string
+// }) => {
+//   if (status !== "approved") {
+//     return (
+//       <Button
+//         disabled
+//         className={`w-full ${
+//           status === "pending"
+//             ? "bg-yellow-500 hover:bg-yellow-600"
+//             : "bg-red-500 hover:bg-red-600"
+//         } text-white`}
+//       >
+//         {status === "pending" ? "Pending Approval" : "Request Cancelled"}
+//       </Button>
+//     );
+//   }
+
+//   return (
+//     <Button
+//     onClick={()=> handdlePayment(requestId)}
+//       disabled={paymentStatus === "paid"}
+//       className={`w-full ${
+//         paymentStatus === "paid"
+//           ? "bg-green-600 hover:bg-green-700"
+//           : "bg-blue-600 hover:bg-blue-700"
+//       } text-white`}
+//     >
+//       {paymentStatus === "paid" ? "Payment Completed" : "Pay Now"}
+//     </Button>
+//   );
+// };
