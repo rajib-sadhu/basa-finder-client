@@ -25,16 +25,19 @@ export const RentalCreateRequest = async (data: FieldValues) => {
   }
 };
 
-export const RentalCreatePayment = async (requestId) => {
+export const RentalCreatePayment = async (requestId: { requestId: string }) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/create-payment`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: (await cookies()).get("accessToken")?.value || "",
-      },
-      body: JSON.stringify(requestId),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/create-payment`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: (await cookies()).get("accessToken")?.value || "",
+        },
+        body: JSON.stringify(requestId),
+      }
+    );
     revalidateTag("RENTAL");
     const result = await res.json();
     return result;
@@ -190,7 +193,7 @@ export const verify = async (orderId: string) => {
         },
       }
     );
-    
+
     const data = await res.json();
     return data;
   } catch (error: any) {

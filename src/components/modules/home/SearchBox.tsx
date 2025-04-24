@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Search, MapPin, Home, DollarSign } from "lucide-react";
+import { Slider } from "@radix-ui/react-slider";
 
 const SearchBox = () => {
   const [location, setLocation] = useState("");
-  const [priceRange, setPriceRange] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [bedrooms, setBedrooms] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -16,7 +17,10 @@ const SearchBox = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-1 sm:p-2">
-      <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center">
+      <form
+        onSubmit={handleSearch}
+        className="flex flex-col md:flex-row items-center"
+      >
         {/* Location */}
         <div className="flex-1 relative border-b md:border-b-0 md:border-r border-gray-200">
           <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -34,20 +38,23 @@ const SearchBox = () => {
         {/* Price Range */}
         <div className="flex-1 relative border-b md:border-b-0 md:border-r border-gray-200">
           <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-            <DollarSign size={18} />
           </div>
-          <select
-            className="hero-search-input pl-10 w-full bg-transparent"
-            value={priceRange}
-            onChange={(e) => setPriceRange(e.target.value)}
-          >
-            <option value="">Price Range</option>
-            <option value="0-500">$0 - $500</option>
-            <option value="500-1000">$500 - $1,000</option>
-            <option value="1000-1500">$1,000 - $1,500</option>
-            <option value="1500-2000">$1,500 - $2,000</option>
-            <option value="2000+">$2,000+</option>
-          </select>
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Price Range: ${priceRange[0]} - ${priceRange[1]}
+            </label>
+            <Slider
+              value={priceRange}
+              onValueChange={(value) =>
+                setPriceRange(value as [number, number])
+              }
+              min={0}
+              max={1000}
+              step={10}
+              minStepsBetweenThumbs={1}
+              className="w-full"
+            />
+          </div>
         </div>
 
         {/* Bedrooms */}

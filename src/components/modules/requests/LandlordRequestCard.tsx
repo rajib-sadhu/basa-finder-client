@@ -77,7 +77,7 @@ const LandlordRequestCard = ({
             <span className="font-medium">ID:</span> {tenantId || "N/A"}
           </p>
           <p>
-            <span className="font-medium">Phone:</span> {tenantPhone || "N/A"}
+            <span className="font-medium">Tenant Phone:</span> {tenantPhone || "N/A"}
           </p>
           {message && (
             <p>
