@@ -104,8 +104,8 @@ const Navbar = () => {
                       user?.role == "admin"
                         ? "/admin/dashboard"
                         : user?.role === "landlord"
-                        ? "landlord/listedRentals"
-                        : "tenant/myRequests"
+                        ? "/landlord/listedRentals"
+                        : "/tenant/myRequests"
                     }
                     className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                     onClick={() => setIsProfileOpen(false)}
