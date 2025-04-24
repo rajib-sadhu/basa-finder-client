@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { RentalCreatePayment } from "@/services/requestService";
+import { Loader } from "lucide-react";
+import { useState } from "react";
 // import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
-
 
 const PaymentButton = ({
   status,
@@ -13,11 +13,11 @@ const PaymentButton = ({
   requestId,
 }: {
   status: "approved" | "rejected" | "pending";
-  paymentStatus: "Paid" | "unpaid";
-  requestId: string
+  paymentStatus: "paid" | "unpaid";
+  requestId: string;
 }) => {
-    console.log(`${requestId}`);
-    //   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   if (status !== "approved") {
     return (
       <Button
@@ -32,37 +32,40 @@ const PaymentButton = ({
       </Button>
     );
   }
-  const handdlePayment = async (requestId: string)=>{
-    console.log(requestId)
-    const res = await RentalCreatePayment({requestId: requestId});
+
+  const handlePayment = async (requestId: string) => {
+    setIsLoading(true);
+
     try {
-      console.log(res);
+      const res = await RentalCreatePayment({ requestId: requestId });
+
       if (res.status) {
         setTimeout(() => {
-            window.location.href = res?.data;
-          //   navigate("/user/orders");
-          }, 1000);
-        // toast.success("Request created successfully!");
-        // router.push("/tenant/myRequests");
+          window.location.href = res?.data;
+        }, 1000);
+
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error during rental request:", error);
       toast.error("Failed to request rental");
+      setIsLoading(false);
     }
-  }
+  };
   return (
     <Button
-    onClick={()=> handdlePayment(`${requestId}`)}
-      disabled={paymentStatus === "Paid"}
+      onClick={() => handlePayment(`${requestId}`)}
+      disabled={paymentStatus === "paid" || isLoading}
       className={`w-full ${
-        paymentStatus === "Paid"
+        paymentStatus === "paid"
           ? "bg-green-600 hover:bg-green-700"
           : "bg-blue-600 hover:bg-blue-700"
       } text-white`}
     >
-      {paymentStatus === "Paid" ? "Payment Completed" : "Pay Now"}
+      {isLoading && <Loader className="animate-spin" /> }
+      {paymentStatus === "paid" ? "Payment Completed" : "Pay Now"}
     </Button>
   );
 };
 
-export default PaymentButton
+export default PaymentButton;

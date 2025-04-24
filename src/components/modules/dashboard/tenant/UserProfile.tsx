@@ -103,7 +103,11 @@ const UserProfile = ({ userData }: { userData: IUser }) => {
   return (
     <div className="p-4 md:p-6 max-w-4xl mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <CardTitle className="text-2xl font-bold">User Profile</CardTitle>
+        <CardTitle className="text-2xl font-bold">
+          {userData?.role.charAt(0).toUpperCase() +
+            userData?.role.slice(1).toLowerCase()}{" "}
+          Profile
+        </CardTitle>
 
         {isEditing ? (
           <div className="flex gap-2">

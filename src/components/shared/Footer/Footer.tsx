@@ -92,7 +92,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/privacy"
+                  href="/help-centre#privacy"
                   className="text-gray-600 hover:text-basafinder-600 transition-colors"
                 >
                   Privacy Policy
@@ -100,7 +100,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/faq"
+                  href="/help-centre#faq"
                   className="text-gray-600 hover:text-basafinder-600 transition-colors"
                 >
                   FAQ
@@ -108,7 +108,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/help"
+                  href="/help-centre#news"
                   className="text-gray-600 hover:text-basafinder-600 transition-colors"
                 >
                   Help Center

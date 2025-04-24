@@ -84,7 +84,7 @@ export default function OrderVerification() {
   if (loading) {
     return (
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6">Order Verification</h1>
+        <h1 className="text-3xl font-bold mb-6">Request Verification</h1>
         <Skeleton className="h-20 w-full mb-4" />
         <Skeleton className="h-40 w-full" />
       </div>
@@ -94,30 +94,40 @@ export default function OrderVerification() {
   if (error || !orderData) {
     return (
       <div className="container mx-auto p-4 text-center">
-        <h1 className="text-3xl font-bold text-red-500">Order Not Found</h1>
-        <p className="text-gray-500">{error || "Please check your order ID and try again."}</p>
+        <h1 className="text-3xl font-bold text-red-500">Request Not Found</h1>
+        <p className="text-gray-500">
+          {error || "Please check your order ID and try again."}
+        </p>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Order Verification</h1>
+      <h1 className="text-3xl font-bold mb-6">Request Verification</h1>
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Order Details */}
+        {/* Request Details */}
         <Card>
           <CardHeader>
-            <CardTitle>Order Details</CardTitle>
+            <CardTitle>Request Details</CardTitle>
           </CardHeader>
           <CardContent>
             <dl className="grid grid-cols-2 gap-2">
-              <dt className="font-semibold">Order ID:</dt>
+              <dt className="font-semibold">Request ID:</dt>
               <dd>{orderData.order_id}</dd>
               <dt className="font-semibold">Advance Pay Amount:</dt>
-              <dd>{orderData.currency} {orderData.amount.toFixed(2)}</dd>
+              <dd>
+                {orderData.currency} {orderData.amount.toFixed(2)}
+              </dd>
               <dt className="font-semibold">Status:</dt>
               <dd>
-                <Badge variant={orderData.bank_status === "Success" ? "default" : "destructive"}>
+                <Badge
+                  variant={
+                    orderData.bank_status === "Success"
+                      ? "default"
+                      : "destructive"
+                  }
+                >
                   {orderData.bank_status}
                 </Badge>
               </dd>
@@ -185,7 +195,9 @@ export default function OrderVerification() {
           </CardContent>
           <CardFooter>
             <Link href="/tenant/myRequests">
-              <Button className="w-full bg-[#FF4B27] hover:bg-orange-500 text-white">View Orders</Button>
+              <Button className="w-full bg-[#FF4B27] hover:bg-orange-500 text-white">
+                View Orders
+              </Button>
             </Link>
           </CardFooter>
         </Card>
