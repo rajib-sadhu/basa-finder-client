@@ -1,3 +1,4 @@
+"use client"
 import { ILandlordRequest } from "@/types";
 import { Hand } from "lucide-react";
 import LandlordRequestCard from "../../requests/LandlordRequestCard";
