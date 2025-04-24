@@ -8,13 +8,32 @@ import { FieldValues } from "react-hook-form";
 export const RentalCreateRequest = async (data: FieldValues) => {
   // const token = await getValidToken();
   try {
+    // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/create-order`, {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: token,
+        Authorization: (await cookies()).get("accessToken")?.value || "",
       },
       body: JSON.stringify(data),
+    });
+    revalidateTag("RENTAL");
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const RentalCreatePayment = async (requestId) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/create-payment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: (await cookies()).get("accessToken")?.value || "",
+      },
+      body: JSON.stringify(requestId),
     });
     revalidateTag("RENTAL");
     const result = await res.json();
@@ -161,16 +180,17 @@ export const verify = async (orderId: string) => {
   // const token = await getValidToken();
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/order/verify?order_id=${orderId}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/verify?order_id=${orderId}`,
       {
-        // headers: {
-        //   Authorization: token,
-        // },
+        headers: {
+          Authorization: (await cookies()).get("accessToken")?.value || "",
+        },
         next: {
           tags: ["RENTAL"],
         },
       }
     );
+    
     const data = await res.json();
     return data;
   } catch (error: any) {
