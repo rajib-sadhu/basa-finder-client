@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Search, MapPin, Home, DollarSign } from "lucide-react";
+import { Search, MapPin, Home } from "lucide-react";
 import { Slider } from "@radix-ui/react-slider";
 
 const SearchBox = () => {

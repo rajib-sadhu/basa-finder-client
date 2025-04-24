@@ -3,7 +3,7 @@ export interface IUser {
   name?: string;
   email?: string;
   phoneNumber?: string;
-  role: string;
+  role: "admin" | "landlord" | "tenant";
   _id?: string;
   isActive?: boolean;
 }
