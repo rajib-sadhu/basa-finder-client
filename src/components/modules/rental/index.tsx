@@ -97,14 +97,15 @@ const ManageLandlordRentals = ({ myListings }: ManageLandlordRentalsProps) => {
         </div>
       ) : (
         <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
-          {myListings?.map((rental) => (
-            <RentalCard
-              key={rental._id}
-              rental={rental}
-              handleDelete={handleDelete}
-              isDeleting={deletingId === rental._id}
-            />
-          ))}
+          {myListings.length &&
+            myListings?.map((rental) => (
+              <RentalCard
+                key={rental._id}
+                rental={rental}
+                handleDelete={handleDelete}
+                isDeleting={deletingId === rental._id}
+              />
+            ))}
         </div>
       )}
     </div>
