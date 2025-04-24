@@ -55,12 +55,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       : user?.role === "landlord"
       ? {
           navMain: [
-            {
-              title: "Dashboard",
-              url: "/landlord/dashboard",
-              icon: SquareTerminal,
-              isActive: true,
-            },
+            // {
+            //   title: "Dashboard",
+            //   url: "/landlord/dashboard",
+            //   icon: SquareTerminal,
+            //   isActive: true,
+            // },
             {
               title: "Rental House Management",
               url: "/landlord/listedRentals",
