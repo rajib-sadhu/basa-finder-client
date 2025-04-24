@@ -3,6 +3,8 @@ import { getAllRentals } from "@/services/RentalsService";
 import PropertyCard from "../property/PropertyCard";
 import { useEffect, useState } from "react";
 import { IRental } from "@/types";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const FeaturesProperties = () => {
   const [allRentals, setAllRentals] = useState([]);
@@ -32,6 +34,9 @@ const FeaturesProperties = () => {
           {allRentals.map((property: IRental) => (
             <PropertyCard key={property._id} {...property} />
           ))}
+        </div>
+        <div className="grid place-content-center mt-5">
+          <Link href="/rentals"><Button className="bg-emerald-800" >View All</Button></Link>
         </div>
       </div>
     </section>

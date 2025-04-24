@@ -14,6 +14,8 @@ const RentalsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
+
   // Filter states
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [bedrooms, setBedrooms] = useState<number | "any">("any");
@@ -87,6 +89,8 @@ const RentalsPage = () => {
       </div>
     );
   }
+
+  
 
   return (
     <div className="container py-10">

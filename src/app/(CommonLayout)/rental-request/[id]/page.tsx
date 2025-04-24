@@ -180,7 +180,7 @@ const RentalRequest = () => {
             />
             <label>
               I agree to the{" "}
-              <Link href="#" className="underline text-blue-900">
+              <Link href="/terms" className="underline text-blue-900">
                 terms and conditions
               </Link>
             </label>

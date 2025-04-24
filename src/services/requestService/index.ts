@@ -69,6 +69,24 @@ export const getLandlordRequests = async () => {
   }
 };
 
+export const getAllRequests = async () => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/request/all`,
+      {
+        cache: "no-store",
+        next: {
+          tags: ["REQUEST"],
+        },
+      }
+    );
+    const data = await res.json();
+    return data.data;
+  } catch (error: any) {
+    return Error(error.message);
+  }
+};
+
 export const updateStatusRequest = async (id: string, status: string) => {
   try {
     const res = await fetch(
