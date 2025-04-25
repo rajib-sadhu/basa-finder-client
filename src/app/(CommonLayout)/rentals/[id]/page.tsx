@@ -81,7 +81,7 @@ const RentalDetailsPage = () => {
               <SwiperSlide key={index}>
                 <div className="relative h-full w-full">
                   <Image
-                    src={image}
+                    src={image || "https://media.istockphoto.com/id/1300331505/vector/living-room-interior-comfortable-sofa-bookcase-chair-and-house-plants-vector-flat-style.jpg?s=612x612&w=0&k=20&c=KbIpj1QZ7FXfma9ELib4My6URwkuPU05gN20IRDG__c="}
                     alt={`${rentalDetails.title} - Image ${index + 1}`}
                     fill
                     className="object-cover"
