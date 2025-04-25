@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="/logo.png" alt="BasaFinder Logo" width="200"/>
+  <img src="[/logo.png](https://basa-finder-psi.vercel.app/favicon/logo2.svg)" alt="BasaFinder Logo" width="200"/>
 </p>
 
 <h1 align="center">🏡 BasaFinder - Smart Rental & Housing Solution (Client)</h1>
