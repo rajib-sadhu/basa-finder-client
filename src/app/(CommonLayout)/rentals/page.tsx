@@ -1,19 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Button } from "@/components/ui/button";
-import { Loader2, Search, X } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { getAllRentals } from "@/services/RentalsService";
 import { IRental } from "@/types";
 import PropertyCard from "@/components/modules/property/PropertyCard";
+import SearchFilters from "@/components/ui/core/SearchBox";
 
 const RentalsPage = () => {
   const [allRentals, setAllRentals] = useState<IRental[]>([]);
@@ -21,13 +14,13 @@ const RentalsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
+
   // Filter states
-  const [priceRange, setPriceRange] = useState([0, 5000]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [bedrooms, setBedrooms] = useState<number | "any">("any");
   const [locationFilter, setLocationFilter] = useState("");
   const [amenitiesFilter, setAmenitiesFilter] = useState<string[]>([]);
-
- 
 
   useEffect(() => {
     const fetchRentals = async () => {
@@ -49,12 +42,10 @@ const RentalsPage = () => {
 
   useEffect(() => {
     const filtered = allRentals.filter((rental) => {
-      
       const priceMatch =
         rental.rent >= priceRange[0] && rental.rent <= priceRange[1];
 
-      const bedroomsMatch =
-        bedrooms === "any" || rental.bedrooms === bedrooms;
+      const bedroomsMatch = bedrooms === "any" || rental.bedrooms === bedrooms;
 
       const locationMatch = rental.location
         .toLowerCase()
@@ -62,17 +53,13 @@ const RentalsPage = () => {
 
       const amenitiesMatch =
         amenitiesFilter.length === 0 ||
-        amenitiesFilter.every((amenity) =>
-          rental.amenities.includes(amenity)
-        );
+        amenitiesFilter.every((amenity) => rental.amenities.includes(amenity));
 
       return priceMatch && bedroomsMatch && locationMatch && amenitiesMatch;
     });
 
     setFilteredRentals(filtered);
   }, [allRentals, priceRange, bedrooms, locationFilter, amenitiesFilter]);
-
-
 
   const resetFilters = () => {
     setPriceRange([0, 5000]);
@@ -103,6 +90,8 @@ const RentalsPage = () => {
     );
   }
 
+  
+
   return (
     <div className="container py-10">
       <div className="mb-10">
@@ -113,76 +102,15 @@ const RentalsPage = () => {
       </div>
 
       {/* Filters Section */}
-      <div className="bg-white p-6 rounded-lg shadow-sm mb-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Price Range Filter */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Price Range: ${priceRange[0]} - ${priceRange[1]}
-            </label>
-            <Slider
-              value={priceRange}
-              onValueChange={setPriceRange}
-              min={0}
-              max={5000}
-              step={100}
-              minStepsBetweenThumbs={1}
-              className="w-full"
-            />
-          </div>
-
-          {/* Bedrooms Filter */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Bedrooms</label>
-            <Select
-              value={bedrooms === "any" ? "any" : bedrooms.toString()}
-              onValueChange={(value) =>
-                setBedrooms(value === "any" ? "any" : parseInt(value))
-              }
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select bedrooms" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="any">Any</SelectItem>
-                <SelectItem value="1">1</SelectItem>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
-                <SelectItem value="4">4+</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Location Filter */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Location</label>
-            <div className="relative">
-              <Input
-                type="text"
-                placeholder="Search location..."
-                value={locationFilter}
-                onChange={(e) => setLocationFilter(e.target.value)}
-                className="pl-10"
-              />
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-            </div>
-          </div>
-
-          {/* Reset Button */}
-          <div className="flex items-end">
-            <Button
-              onClick={resetFilters}
-              variant="outline"
-              className="flex items-center gap-2"
-            >
-              <X className="h-4 w-4" />
-              Reset Filters
-            </Button>
-          </div>
-        </div>
-
-       
-      </div>
+      <SearchFilters
+        priceRange={priceRange}
+        onPriceRangeChange={setPriceRange}
+        bedrooms={bedrooms}
+        onBedroomsChange={setBedrooms}
+        locationFilter={locationFilter}
+        onLocationFilterChange={setLocationFilter}
+        onResetFilters={resetFilters}
+      />
 
       {/* Results Count */}
       <div className="mb-6 flex justify-between items-center">

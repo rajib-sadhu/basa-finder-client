@@ -5,6 +5,7 @@ import { getLandlordRequests } from "@/services/requestService";
 
 const LandlordRequestsPage = async () => {
   const landlordRequests = await getLandlordRequests();
+
   return (
     <div>
       <HeaderPath role="Landlord" subPath="Rental Requests" />

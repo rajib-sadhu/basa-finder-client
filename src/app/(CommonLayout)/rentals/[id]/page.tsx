@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/UserContext";
 
 interface IRentalDetails {
   _id: string;
@@ -24,11 +25,13 @@ interface IRentalDetails {
 }
 
 const RentalDetailsPage = () => {
+  const { user } = useUser();
   const { id } = useParams();
   const router = useRouter();
   const [rentalDetails, setRentalDetails] = useState<IRentalDetails | null>(
     null
   );
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -78,7 +81,7 @@ const RentalDetailsPage = () => {
               <SwiperSlide key={index}>
                 <div className="relative h-full w-full">
                   <Image
-                    src={image}
+                    src={image || "https://media.istockphoto.com/id/1300331505/vector/living-room-interior-comfortable-sofa-bookcase-chair-and-house-plants-vector-flat-style.jpg?s=612x612&w=0&k=20&c=KbIpj1QZ7FXfma9ELib4My6URwkuPU05gN20IRDG__c="}
                     alt={`${rentalDetails.title} - Image ${index + 1}`}
                     fill
                     className="object-cover"
@@ -150,16 +153,26 @@ const RentalDetailsPage = () => {
           )}
 
           <div className="pt-4">
-            <Button
-              size="lg"
-              className="w-full bg-emerald-600 hover:bg-emerald-700"
-              disabled={!rentalDetails.availability}
-              onClick={() => router.push(`/rental-request/${id}`)}
-            >
-              {rentalDetails.availability
-                ? "Request for Rent"
-                : "Currently Unavailable"}
-            </Button>
+            {user?.role === "tenant" ? (
+              <Button
+                size="lg"
+                className="w-full bg-emerald-600 hover:bg-emerald-700"
+                disabled={!rentalDetails.availability}
+                onClick={() => router.push(`/rental-request/${id}`)}
+              >
+                {rentalDetails.availability
+                  ? "Request for Rent"
+                  : "Currently Unavailable"}
+              </Button>
+            ) : (
+              <Button size="lg" className="w-full bg-red-600 hover:bg-red-700">
+                {user?.role
+                  ? user?.role.charAt(0).toUpperCase() +
+                    user?.role.slice(1).toLowerCase() +" can not request"
+                  : "Login first for request"}
+               
+              </Button>
+            )}
           </div>
         </div>
       </div>

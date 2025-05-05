@@ -17,6 +17,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+// import { RentalCreateRequest } from "@/services/OrderService";
 import { RentalCreateRequest } from "@/services/requestService";
 import { getSingleRental } from "@/services/RentalsService";
 import { IUser } from "@/types";
@@ -83,14 +84,7 @@ const RentalRequest = () => {
     try {
       const rentalRequest = {
         listingId: id,
-        tenantId: user?._id,
-        landlordId: landlord?._id,
-        status: "pending",
         message: data.message,
-        name: userInfo?.name,
-        email: userInfo?.email,
-        landlordPhone: landlord?.phoneNumber,
-        tenantPhone: data?.phoneNumber,
       };
 
       console.log({ rentalRequest });
@@ -99,7 +93,7 @@ const RentalRequest = () => {
       console.log(res);
       if (res.status) {
         toast.success("Request created successfully!");
-        router.push("/");
+        router.push("/tenant/myRequests");
       }
     } catch (error) {
       console.error("Error during rental request:", error);
@@ -186,7 +180,7 @@ const RentalRequest = () => {
             />
             <label>
               I agree to the{" "}
-              <Link href="#" className="underline text-blue-900">
+              <Link href="/terms" className="underline text-blue-900">
                 terms and conditions
               </Link>
             </label>

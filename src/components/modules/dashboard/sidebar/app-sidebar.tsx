@@ -44,28 +44,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: "Rental House Management",
               url: "/admin/allLists",
               icon: House,
-              // items: [
-              //   {
-              //     title: "All Listing",
-              //     url: "/admin/allLists",
-              //   },
-              //   {
-              //     title: "New Listing",
-              //     url: "/admin/newLists",
-              //   },
-              // ],
+            },
+            {
+              title: "Profile",
+              url: "/admin/profile",
+              icon: User,
             },
           ],
         }
       : user?.role === "landlord"
       ? {
           navMain: [
-            {
-              title: "Dashboard",
-              url: "/landlord/dashboard",
-              icon: SquareTerminal,
-              isActive: true,
-            },
+            // {
+            //   title: "Dashboard",
+            //   url: "/landlord/dashboard",
+            //   icon: SquareTerminal,
+            //   isActive: true,
+            // },
             {
               title: "Rental House Management",
               url: "/landlord/listedRentals",
@@ -76,25 +71,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               url: "/landlord/landlordRequests",
               icon: Hand,
             },
+            {
+              title: "Profile",
+              url: "/landlord/profile",
+              icon: User,
+            },
           ],
         }
       : {
           navMain: [
             {
-              title: "Dashboard",
-              url: "/tenant/dashboard",
-              icon: SquareTerminal,
-              isActive: true,
+              title: "Requested",
+              url: "/tenant/myRequests",
+              icon: House,
             },
             {
               title: "Profile",
               url: "/tenant/profile",
               icon: User,
-            },
-            {
-              title: "Requested",
-              url: "/tenant/myRequests",
-              icon: House,
             },
           ],
         };

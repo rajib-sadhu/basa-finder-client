@@ -1,3 +1,4 @@
+"use client";
 import { ILandlordRequest } from "@/types";
 import { Hand } from "lucide-react";
 import LandlordRequestCard from "../../requests/LandlordRequestCard";
@@ -22,6 +23,14 @@ const RentalRequests = ({
     }
   };
 
+  if (landlordRequests.length === 0) {
+    return (
+      <div className="h-52 grid place-content-center">
+        <p>You do not have any request</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
@@ -30,13 +39,14 @@ const RentalRequests = ({
         </h1>
       </div>
       <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-        {landlordRequests?.map((request) => (
-          <LandlordRequestCard
-            key={request._id}
-            requestData={request}
-            handleStatusChange={handleStatusChange}
-          />
-        ))}
+        {landlordRequests.length &&
+          landlordRequests?.map((request) => (
+            <LandlordRequestCard
+              key={request._id}
+              requestData={request}
+              handleStatusChange={handleStatusChange}
+            />
+          ))}
       </div>
     </div>
   );

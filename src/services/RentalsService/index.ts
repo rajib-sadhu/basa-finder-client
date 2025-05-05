@@ -26,9 +26,7 @@ export const createRentals = async (rentalData: FieldValues) => {
 export const getAllRentals = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
-      next: {
-        revalidate: 30,
-      },
+      cache: "no-store",
     });
 
     const result = await res.json();

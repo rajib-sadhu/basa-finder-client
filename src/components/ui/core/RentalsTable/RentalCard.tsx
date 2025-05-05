@@ -5,6 +5,7 @@ import Image from "next/image";
 import { IRental } from "@/types";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
+import { useUser } from "@/context/UserContext";
 
 interface RentalCardProps {
   rental: IRental;
@@ -17,6 +18,8 @@ export function RentalCard({
   handleDelete,
   isDeleting = false,
 }: RentalCardProps) {
+  const { user } = useUser();
+
   const {
     _id,
     title,
@@ -124,7 +127,13 @@ export function RentalCard({
             size="sm"
             asChild
           >
-            <Link href={`/landlord/listedRentals/updateRental/${_id}`}>
+            <Link
+              href={
+                user?.role == "admin"
+                  ? `/admin/allLists/adminUpdateRental/${_id}`
+                  : `/landlord/listedRentals/updateRental/${_id}`
+              }
+            >
               <Edit className="h-4 w-4" />
             </Link>
           </Button>

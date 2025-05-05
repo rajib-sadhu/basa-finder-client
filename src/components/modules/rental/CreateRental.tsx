@@ -262,7 +262,7 @@ const CreateRental = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex items-center gap-2">
-                    <DollarSign className="w-4 h-4" /> Monthly Rent ($)
+                    <DollarSign className="w-4 h-4" /> Rent Amount ($)
                   </FormLabel>
                   <FormControl>
                     <Input

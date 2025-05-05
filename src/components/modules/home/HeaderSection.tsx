@@ -4,7 +4,7 @@ import Image from "next/image";
 import image1 from "@/assets/images/homeHeader.jpeg";
 import Link from "next/link";
 import React from "react";
-import SearchBox from "./SearchBox";
+// import SearchBox from "./SearchBox";
 
 const HeaderSection = () => {
   return (
@@ -66,10 +66,10 @@ const HeaderSection = () => {
           </div>
 
           {/* Search Box */}
-          <div className="mt-20 relative z-10">
+          {/* <div className="mt-20 relative z-10">
             {" "}
             <SearchBox />{" "}
-          </div>
+          </div> */}
         </div>
       </section>
     </div>

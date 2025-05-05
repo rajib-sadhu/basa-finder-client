@@ -89,8 +89,8 @@ const Navbar = () => {
           ) : user ? (
             <div className="relative">
               <Button
-                 variant="default"
-                  className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"
+                variant="default"
+                className="bg-emerald-600 hover:bg-emerald-700 cursor-pointer"
                 onClick={toggleProfile}
               >
                 <User size={16} />
@@ -100,7 +100,13 @@ const Navbar = () => {
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                   <Link
-                    href={`/${user?.role}/dashboard`}
+                    href={
+                      user?.role == "admin"
+                        ? "/admin/dashboard"
+                        : user?.role === "landlord"
+                        ? "/landlord/listedRentals"
+                        : "/tenant/myRequests"
+                    }
                     className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                     onClick={() => setIsProfileOpen(false)}
                   >
@@ -168,7 +174,7 @@ const Navbar = () => {
             {user ? (
               <>
                 <Link
-                   href={`/${user?.role}/dashboard`}
+                  href={`/${user?.role}/dashboard`}
                   className="text-gray-600 hover:text-emerald-600 py-2 flex items-center gap-2"
                   onClick={toggleMenu}
                 >
