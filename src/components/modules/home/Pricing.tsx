@@ -56,22 +56,22 @@ const Pricing: React.FC<PricingProps> = ({ data }) => {
         <div className="flex gap-4">
           {data.map((plan) => (
             <div
-              key={plan._id}
+              key={plan?._id}
               className="flex-shrink-0 w-[90%] sm:w-[80%] md:w-1/2 lg:w-1/4 border shadow-md p-4 rounded-md bg-white mx-auto"
             >
               <div className="w-16 h-16 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-4">
                 <span className="text-3xl font-bold text-gray-800">
-                  ${plan.price}
+                  ${plan?.price}
                 </span>
               </div>
               <h3 className="text-xl font-semibold mb-2 text-center">
-                {plan.title}
+                {plan?.title}
               </h3>
               <p className="text-gray-600 text-sm text-center">
-                {plan.description}
+                {plan?.description}
               </p>
               <ul className="mt-4 space-y-2 text-sm text-gray-700">
-                {plan.features.map((feature, idx) => (
+                {plan?.features.map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-2">
                     <span className="text-emerald-600 font-bold">✓</span>
                     {feature}

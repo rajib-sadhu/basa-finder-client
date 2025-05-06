@@ -9,7 +9,7 @@ interface PricingPlan {
 }
 
 const PricingPage = async () => {
-  const res = await fetch("http://localhost:5000/api/pricings", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricings`, {
     cache: "no-store",
   });
   const result = await res.json();
