@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
+  Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
@@ -19,7 +20,6 @@ import {
 } from "@/components/ui/table";
 import { IUser } from "@/types";
 import { updateUserActiveStatus, updateUserRole } from "@/services/UserInfo";
-import { Select } from "@/components/ui/select";
 
 interface ManageUsersProps {
   users: IUser[];
@@ -27,6 +27,14 @@ interface ManageUsersProps {
 
 const ManageUsers = ({ users }: ManageUsersProps) => {
   const [userList, setUserList] = useState(users);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const totalPages = Math.ceil(userList.length / itemsPerPage);
+
+  const paginatedUsers = userList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleToggle = async (userId: string) => {
     try {
@@ -41,7 +49,7 @@ const ManageUsers = ({ users }: ManageUsersProps) => {
       console.error("Failed to toggle status:", err);
     }
   };
-  // change role
+
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
       const updatedUser = await updateUserRole(userId, newRole);
@@ -75,9 +83,11 @@ const ManageUsers = ({ users }: ManageUsersProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {userList.map((user, i) => (
+            {paginatedUsers.map((user, i) => (
               <TableRow key={user._id}>
-                <TableCell>{i + 1}</TableCell>
+                <TableCell>
+                  {(currentPage - 1) * itemsPerPage + i + 1}
+                </TableCell>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.phoneNumber}</TableCell>
@@ -99,7 +109,6 @@ const ManageUsers = ({ users }: ManageUsersProps) => {
                   </Select>
                 </TableCell>
                 <TableCell className="capitalize">{user.role}</TableCell>
-
                 <TableCell className="capitalize">
                   <Button
                     onClick={() => handleToggle(user._id!)}
@@ -115,6 +124,43 @@ const ManageUsers = ({ users }: ManageUsersProps) => {
           </TableBody>
         </Table>
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-6 flex-wrap gap-2">
+          <Button
+            variant="outline"
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+            (pageNum) => (
+              <Button
+                key={pageNum}
+                variant={currentPage === pageNum ? "default" : "outline"}
+                onClick={() => setCurrentPage(pageNum)}
+                className={`w-10 p-0 ${
+                  currentPage === pageNum
+                    ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                    : ""
+                }`}
+              >
+                {pageNum}
+              </Button>
+            )
+          )}
+
+          <Button
+            variant="outline"
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

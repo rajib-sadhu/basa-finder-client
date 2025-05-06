@@ -101,7 +101,7 @@ const UserProfile = ({ userData }: { userData: IUser }) => {
   };
 
   return (
-    <div className="p-4 md:p-6 max-w-4xl mx-auto">
+    <div className="pt-4 w-full mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <CardTitle className="text-2xl font-bold">
           {userData?.role &&
@@ -131,140 +131,153 @@ const UserProfile = ({ userData }: { userData: IUser }) => {
           </Button>
         )}
       </div>
-
-      <Card>
-        <CardHeader>
-          <h4 className="text-lg font-semibold">User Information</h4>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                {isEditing ? (
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {userData?.name}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                {isEditing ? (
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {userData?.email}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Phone</Label>
-                {isEditing ? (
-                  <Input
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    type="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {userData?.phoneNumber}
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label>Account Status</Label>
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`h-2 w-2 rounded-full ${
-                      userData?.isActive ? "bg-green-500" : "bg-red-500"
-                    }`}
-                  />
-                  <p className="text-sm text-muted-foreground">
-                    {userData?.isActive ? "Active" : "Inactive"}
-                  </p>
-                </div>
-              </div>
-            </div>
+      {/* Wrapper with relative for profile circle */}
+      <div className="relative">
+        {/* Profile Circle */}
+        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="w-20 h-20 rounded-full border-4 border-white bg-gray-200 flex items-center justify-center text-sm font-medium shadow-md">
+            Profile
           </div>
-        </CardContent>
+        </div>
 
-        {/* Password Update Section */}
-        <CardFooter className="flex flex-col gap-4 pt-6 border-t">
-          {!showPasswordForm ? (
-            <Button
-              onClick={() => setShowPasswordForm(true)}
-              className="gap-2 bg-emerald-600"
-            >
-              <Lock className="h-4 w-4" />
-              Change Password
-            </Button>
-          ) : (
-            <div className="w-full space-y-4">
-              <h4 className="font-medium">Update Password</h4>
+        <Card>
+          <CardHeader>
+            <h4 className="text-lg font-semibold">User Information</h4>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="currentPassword">Current Password</Label>
-                  <Input
-                    id="currentPassword"
-                    name="currentPassword"
-                    type="password"
-                    value={passwordData.currentPassword}
-                    onChange={handlePasswordChange}
-                    placeholder="Enter current password"
-                  />
+                  <Label htmlFor="name">Full Name</Label>
+                  {isEditing ? (
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      {userData?.name}
+                    </p>
+                  )}
                 </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="newPassword">New Password</Label>
-                  <Input
-                    id="newPassword"
-                    name="newPassword"
-                    type="password"
-                    value={passwordData.newPassword}
-                    onChange={handlePasswordChange}
-                    placeholder="Enter new password"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                  <Input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    value={passwordData.confirmPassword}
-                    onChange={handlePasswordChange}
-                    placeholder="Confirm new password"
-                  />
+                  <Label htmlFor="email">Email</Label>
+                  {isEditing ? (
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      {userData?.email}
+                    </p>
+                  )}
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button onClick={() => setShowPasswordForm(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handlePasswordUpdate}>Update Password</Button>
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="phoneNumber">Phone</Label>
+                  {isEditing ? (
+                    <Input
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      type="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
+                    />
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      {userData?.phoneNumber}
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label>Account Status</Label>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`h-2 w-2 rounded-full ${
+                        userData?.isActive ? "bg-green-500" : "bg-red-500"
+                      }`}
+                    />
+                    <p className="text-sm text-muted-foreground">
+                      {userData?.isActive ? "Active" : "Inactive"}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          )}
-        </CardFooter>
-      </Card>
+          </CardContent>
+
+          {/* Password Update Section */}
+          <CardFooter className="flex flex-col gap-4 pt-6 border-t">
+            {!showPasswordForm ? (
+              <Button
+                onClick={() => setShowPasswordForm(true)}
+                className="gap-2 bg-emerald-600"
+              >
+                <Lock className="h-4 w-4" />
+                Change Password
+              </Button>
+            ) : (
+              <div className="w-full space-y-4">
+                <h4 className="font-medium">Update Password</h4>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="currentPassword">Current Password</Label>
+                    <Input
+                      id="currentPassword"
+                      name="currentPassword"
+                      type="password"
+                      value={passwordData.currentPassword}
+                      onChange={handlePasswordChange}
+                      placeholder="Enter current password"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="newPassword">New Password</Label>
+                    <Input
+                      id="newPassword"
+                      name="newPassword"
+                      type="password"
+                      value={passwordData.newPassword}
+                      onChange={handlePasswordChange}
+                      placeholder="Enter new password"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword">
+                      Confirm New Password
+                    </Label>
+                    <Input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type="password"
+                      value={passwordData.confirmPassword}
+                      onChange={handlePasswordChange}
+                      placeholder="Confirm new password"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={() => setShowPasswordForm(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handlePasswordUpdate}>
+                    Update Password
+                  </Button>
+                </div>
+              </div>
+            )}
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   );
 };

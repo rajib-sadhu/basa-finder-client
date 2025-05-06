@@ -1,24 +1,34 @@
 "use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { getAllRentals } from "@/services/RentalsService";
 import PropertyCard from "../property/PropertyCard";
-import { useEffect, useState } from "react";
 import { IRental } from "@/types";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import PropertyCardSkeleton from "../property/PropertyCardSkeleton";
 
 const FeaturesProperties = () => {
-  const [allRentals, setAllRentals] = useState([]);
+  const [allRentals, setAllRentals] = useState<IRental[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const allRentalsFunction = async () => {
-      const allRentals = await getAllRentals();
-      setAllRentals(allRentals.slice(0,4));
+      try {
+        setLoading(true);
+        const allRentals = await getAllRentals();
+        setAllRentals(allRentals.slice(0, 4));
+      } catch (error) {
+        console.error("Error fetching featured properties:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     allRentalsFunction();
   }, []);
 
   return (
-    <section className="py-12 px-4">
+    <section className="py-16 px-4">
       <div className="container">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -30,13 +40,21 @@ const FeaturesProperties = () => {
           </p>
         </div>
 
+        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {allRentals.map((property: IRental) => (
-            <PropertyCard key={property._id} {...property} />
-          ))}
+          {loading
+            ? Array.from({ length: 4 }).map((_, idx) => (
+                <PropertyCardSkeleton key={idx} />
+              ))
+            : allRentals.map((property) => (
+                <PropertyCard key={property._id} {...property} />
+              ))}
         </div>
+
         <div className="grid place-content-center mt-5">
-          <Link href="/rentals"><Button className="bg-emerald-800" >View All</Button></Link>
+          <Link href="/rentals">
+            <Button className="bg-emerald-800">View All</Button>
+          </Link>
         </div>
       </div>
     </section>

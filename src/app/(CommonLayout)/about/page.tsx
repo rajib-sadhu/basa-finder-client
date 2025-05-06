@@ -187,9 +187,7 @@ const About = () => {
               <MapPin className="text-emerald-600 w-6 h-6 mt-1" />
               <div>
                 <p className="text-sm text-gray-500">Location</p>
-                <p className="text-base text-gray-900">
-                  Dhaka, Bangladesh
-                </p>
+                <p className="text-base text-gray-900">Dhaka, Bangladesh</p>
               </div>
             </div>
           </div>

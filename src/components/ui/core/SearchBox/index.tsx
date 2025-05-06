@@ -41,7 +41,9 @@ const SearchFilters = ({
           </label>
           <Slider
             value={priceRange}
-            onValueChange={(value) => onPriceRangeChange(value as [number, number])}
+            onValueChange={(value) =>
+              onPriceRangeChange(value as [number, number])
+            }
             min={0}
             max={1000}
             step={10}

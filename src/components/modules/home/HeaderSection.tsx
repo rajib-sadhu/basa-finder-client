@@ -8,8 +8,8 @@ import React from "react";
 
 const HeaderSection = () => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <section className="relative pt-12 pb-20 sm:pt-16 sm:pb-24 bg-gradient-to-br from-emerald-50 to-emerald-100 md:px-5 px-2">
+    <div className="flex flex-col ">
+      <section className="relative py-16 sm:pt-16 sm:pb-24 bg-gradient-to-br from-emerald-50 to-emerald-100 md:px-5 px-2">
         <div className="container px-4">
           <div className="flex flex-col lg:flex-row items-center">
             <div className="lg:w-1/2 mb-10 lg:mb-0">
@@ -49,6 +49,7 @@ const HeaderSection = () => {
                   width={1000}
                   height={1000}
                   className="rounded-lg shadow-xl w-full object-cover"
+                  priority
                 />
                 <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-lg p-4 w-48">
                   <div className="text-accent-500 font-bold text-2xl mb-1">

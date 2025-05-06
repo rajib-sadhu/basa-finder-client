@@ -1,12 +1,14 @@
 "use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { RentalCard } from "@/components/ui/core/RentalsTable/RentalCard";
 import { deleteRental } from "@/services/RentalsService";
 import { IRental } from "@/types";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,6 +29,9 @@ const ManageLandlordRentals = ({ myListings }: ManageLandlordRentalsProps) => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [rentalToDelete, setRentalToDelete] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+  const totalPages = Math.ceil(myListings.length / itemsPerPage);
 
   const handleDelete = (id: string) => {
     setRentalToDelete(id);
@@ -60,6 +65,12 @@ const ManageLandlordRentals = ({ myListings }: ManageLandlordRentalsProps) => {
     }
   };
 
+  // Paginated listings
+  const paginatedListings = myListings.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="mx-auto px-4 py-8">
       {/* Delete Confirmation Dialog */}
@@ -87,7 +98,7 @@ const ManageLandlordRentals = ({ myListings }: ManageLandlordRentalsProps) => {
       {myListings?.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500">
-            You {`haven't`} listed any rentals yet.
+            You haven&apos;t listed any rentals yet.
           </p>
           <Link href="/landlord/listedRentals/createRental">
             <Button className="mt-4 bg-emerald-600 hover:bg-emerald-700">
@@ -96,9 +107,9 @@ const ManageLandlordRentals = ({ myListings }: ManageLandlordRentalsProps) => {
           </Link>
         </div>
       ) : (
-        <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
-          {myListings.length &&
-            myListings?.map((rental) => (
+        <>
+          <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
+            {paginatedListings.map((rental) => (
               <RentalCard
                 key={rental._id}
                 rental={rental}
@@ -106,7 +117,50 @@ const ManageLandlordRentals = ({ myListings }: ManageLandlordRentalsProps) => {
                 isDeleting={deletingId === rental._id}
               />
             ))}
-        </div>
+          </div>
+
+          {/* Pagination Controls */}
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-8 gap-2 flex-wrap">
+              {/* Previous Button */}
+              <Button
+                variant="outline"
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+
+              {/* Numbered Page Buttons */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <Button
+                    key={pageNum}
+                    variant={currentPage === pageNum ? "default" : "outline"}
+                    onClick={() => setCurrentPage(pageNum)}
+                    className={`w-10 p-0 ${
+                      currentPage === pageNum
+                        ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                        : ""
+                    }`}
+                  >
+                    {pageNum}
+                  </Button>
+                )
+              )}
+
+              {/* Next Button */}
+              <Button
+                variant="outline"
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

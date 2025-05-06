@@ -36,7 +36,7 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
-      console.log(res)
+      console.log(res);
       if (res?.status) {
         toast.success(res?.message);
         router.push("/");
@@ -45,6 +45,18 @@ const LoginForm = () => {
       }
     } catch (err: any) {
       console.error(err);
+    }
+  };
+  const handleCredentialFill = (role: "admin" | "landlord" | "tenant") => {
+    if (role === "admin") {
+      form.setValue("email", "admin2@gmail.com");
+      form.setValue("password", "1234");
+    } else if (role === "landlord") {
+      form.setValue("email", "landlord@gmail.com");
+      form.setValue("password", "1234");
+    } else if (role === "tenant") {
+      form.setValue("email", "tenant@gmail.com");
+      form.setValue("password", "1234");
     }
   };
 
@@ -63,6 +75,30 @@ const LoginForm = () => {
         <h1 className="text-center font-bold text-2xl md:text-3xl pb-6">
           Sign in your account
         </h1>
+        <h2 className="font-semibold pb-1">Quick Test Login:</h2>
+        <div className="grid grid-cols-3 gap-5 pb-5">
+          <Button
+            variant={"outline"}
+            className="rounded-full"
+            onClick={() => handleCredentialFill("admin")}
+          >
+            Admin
+          </Button>
+          <Button
+            variant={"outline"}
+            className="rounded-full"
+            onClick={() => handleCredentialFill("landlord")}
+          >
+            Landlord
+          </Button>
+          <Button
+            variant={"outline"}
+            className="rounded-full"
+            onClick={() => handleCredentialFill("tenant")}
+          >
+            Tenant
+          </Button>
+        </div>
 
         {/* <Button
 
