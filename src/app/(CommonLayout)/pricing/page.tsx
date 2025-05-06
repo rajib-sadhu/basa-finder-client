@@ -9,9 +9,12 @@ interface PricingPlan {
 }
 
 const PricingPage = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricings`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    "https://basa-finder-server-three.vercel.app/api/pricings",
+    {
+      cache: "no-store",
+    }
+  );
   const result = await res.json();
   const data: PricingPlan[] = Array.isArray(result?.data) ? result.data : [];
 

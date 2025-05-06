@@ -17,6 +17,10 @@ interface IRentalDetails {
   title: string;
   location: string;
   description: string;
+  rating?: {
+    average: number;
+    totalReviews: number;
+  };
   rent: number;
   bedrooms: number;
   amenities: string[];
@@ -81,7 +85,10 @@ const RentalDetailsPage = () => {
               <SwiperSlide key={index}>
                 <div className="relative h-full w-full">
                   <Image
-                    src={image || "https://media.istockphoto.com/id/1300331505/vector/living-room-interior-comfortable-sofa-bookcase-chair-and-house-plants-vector-flat-style.jpg?s=612x612&w=0&k=20&c=KbIpj1QZ7FXfma9ELib4My6URwkuPU05gN20IRDG__c="}
+                    src={
+                      image ||
+                      "https://media.istockphoto.com/id/1300331505/vector/living-room-interior-comfortable-sofa-bookcase-chair-and-house-plants-vector-flat-style.jpg?s=612x612&w=0&k=20&c=KbIpj1QZ7FXfma9ELib4My6URwkuPU05gN20IRDG__c="
+                    }
                     alt={`${rentalDetails.title} - Image ${index + 1}`}
                     fill
                     className="object-cover"
@@ -133,6 +140,7 @@ const RentalDetailsPage = () => {
 
           <div>
             <h2 className="text-xl font-semibold mb-3">Description</h2>
+
             <p className="text-gray-700">{rentalDetails.description}</p>
           </div>
 
@@ -151,6 +159,13 @@ const RentalDetailsPage = () => {
               </div>
             </div>
           )}
+          <div className=" mb-3 flex gap-10">
+            <p className="">
+              {" "}
+              Total Reviews : {rentalDetails.rating?.totalReviews}
+            </p>
+            <p className=""> Ratings :{rentalDetails.rating?.average}</p>
+          </div>
 
           <div className="pt-4">
             {user?.role === "tenant" ? (
@@ -168,9 +183,9 @@ const RentalDetailsPage = () => {
               <Button size="lg" className="w-full bg-red-600 hover:bg-red-700">
                 {user?.role
                   ? user?.role.charAt(0).toUpperCase() +
-                    user?.role.slice(1).toLowerCase() +" can not request"
+                    user?.role.slice(1).toLowerCase() +
+                    " can not request"
                   : "Login first for request"}
-               
               </Button>
             )}
           </div>
